@@ -27,6 +27,7 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
     private ClassListPresenter classListPresenter;
     private ClassAdapter classAdapter;
     private ArrayList<ClassRoomModel> data;
+    private CreateDialogFragment createDialogFragment;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,9 +79,11 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
         ClassRoomModel classRoomModel=new ClassRoomModel(0,"chemestry","univers",111,5);
         floatingActionButton.setOnClickListener(v -> {
             //classListPresenter.addClass(classRoomModel);
+            createDialogFragment=CreateDialogFragment.newInstance(this);
             getParentFragmentManager().beginTransaction()
-                    .add(R.id.main_fragment,CreateDialogFragment.newInstance(this),null)
+                    .add(R.id.main_fragment,createDialogFragment,null)
                     .commit();
+
         });
 
         return view;
@@ -115,5 +118,7 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
     @Override
     public void onApply(ClassRoomModel classRoomModel) {
         classListPresenter.addClass(classRoomModel);
+        getParentFragmentManager().beginTransaction().remove(createDialogFragment).commit();
+
     }
 }

@@ -52,7 +52,7 @@ public class CreateDialogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_create_dialog, container, false);
-        nameClass=view.findViewById(R.id.nameClass);
+        nameClass=view.findViewById(R.id.nameClassRoom);
         numberClass=view.findViewById(R.id.numberClassRoom);
         floorClass=view.findViewById(R.id.floorClassRoom);
         typeClass=view.findViewById(R.id.typeOfClass);
