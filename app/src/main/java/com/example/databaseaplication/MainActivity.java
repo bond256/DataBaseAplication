@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment,new ListClassFragment())
+                .add(R.id.main_fragment,new ListClassFragment(),null)
                 .commit();
     }
 }

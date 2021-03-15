@@ -1,26 +1,19 @@
-package com.example.databaseaplication.repositoty;
+package com.example.databaseaplication.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.example.databaseaplication.Model.ClassRoomModel;
-import com.example.databaseaplication.database.DbHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassRoomData {
+public class GetDataFromDB {
     private SQLiteDatabase database;
 
-
-
-    @RequiresApi(api = Build.VERSION_CODES.P)
-    public ClassRoomData(Context context) {
+    public GetDataFromDB(Context context) {
         this.database=new DbHelper(context).getWritableDatabase();
     }
 
@@ -30,19 +23,19 @@ public class ClassRoomData {
 
         if(cursor.moveToFirst()){
 
-           int idIndex=cursor.getColumnIndex("_id");
-           int nameIndex=cursor.getColumnIndex("name");
-           int roomNumberIndex=cursor.getColumnIndex("roomNumber");
-           int levelIndex=cursor.getColumnIndex("level");
-           int typeOfClassIndex=cursor.getColumnIndex("typeOfClass");
-           do{
+            int idIndex=cursor.getColumnIndex("_id");
+            int nameIndex=cursor.getColumnIndex("name");
+            int roomNumberIndex=cursor.getColumnIndex("roomNumber");
+            int levelIndex=cursor.getColumnIndex("level");
+            int typeOfClassIndex=cursor.getColumnIndex("typeOfClass");
+            do{
                 Integer id=cursor.getInt(idIndex);
                 String name=cursor.getString(nameIndex);
                 Integer numberRoom=cursor.getInt(roomNumberIndex);
                 Integer level=cursor.getInt(levelIndex);
                 String typeOfClass=cursor.getString(typeOfClassIndex);
                 dataClassRoom.add(new ClassRoomModel(id,name,typeOfClass,numberRoom,level));
-           }while (cursor.moveToNext());
+            }while (cursor.moveToNext());
         }
         return dataClassRoom;
     }
@@ -58,8 +51,17 @@ public class ClassRoomData {
         }).start();
     }
 
+    public long addClassRoom(ClassRoomModel classRoom){
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("name",classRoom.getName());
+        contentValues.put("roomNumber",classRoom.getNumberRoom());
+        contentValues.put("level",classRoom.getLevel());
+        contentValues.put("typeOfClass",classRoom.getTypeOfClass());
+        return database.insert("classroom",null,contentValues);
+    }
 
 
-
-
+    public int deleteClassRoom(Integer id){
+       return database.delete("classroom","_id= "+id,null);
+    }
 }

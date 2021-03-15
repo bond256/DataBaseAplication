@@ -5,20 +5,28 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.databaseaplication.repositoty.ClassRoomData;
+import com.example.databaseaplication.Adapters.ClassAdapter;
+import com.example.databaseaplication.Model.ClassRoomModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ListClassFragment extends Fragment implements ClassListContract.View {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListClassFragment extends Fragment implements ClassListContract.View, ClassAdapter.ItemClickListener, CreateDialogFragment.FragmentDialogListener {
 
     private RecyclerView classRecycler;
     private ClassListPresenter classListPresenter;
+    private ClassAdapter classAdapter;
+    private ArrayList<ClassRoomModel> data;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,23 +66,54 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_list_class, container, false);
-        view.findViewById(R.id.classRecycler);
-        classListPresenter=new ClassListPresenter(this);
+        FloatingActionButton floatingActionButton=view.findViewById(R.id.floatingActionButton);
+        classRecycler= view.findViewById(R.id.classRecycler);
+        data=new ArrayList<>();
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
+        classRecycler.setLayoutManager(layoutManager);
+        classAdapter=new ClassAdapter(data,this);
+        classRecycler.setAdapter(classAdapter);
+        classListPresenter=new ClassListPresenter(this, getContext());
         classListPresenter.loadClass();
-        ClassRoomData classRoomData=new ClassRoomData(getActivity());
-        classRoomData.insertData();
-        // Inflate the layout for this fragment
+        ClassRoomModel classRoomModel=new ClassRoomModel(0,"chemestry","univers",111,5);
+        floatingActionButton.setOnClickListener(v -> {
+            //classListPresenter.addClass(classRoomModel);
+            getParentFragmentManager().beginTransaction()
+                    .add(R.id.main_fragment,CreateDialogFragment.newInstance(this),null)
+                    .commit();
+        });
+
         return view;
     }
 
-    @Override
-    public void showList() {
-        Toast.makeText(getContext(),"ok",Toast.LENGTH_LONG).show();
 
+    @Override
+    public void showList(List<ClassRoomModel> classRooms) {
+        if(classRooms.isEmpty()){
+            data.clear();
+            classAdapter.notifyDataSetChanged();
+            return;
+        }
+        data.clear();
+        data.addAll(classRooms);
+        classAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showError() {
+        Log.d("tag", "showError: ");
 
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        classListPresenter.deleteClassRoom(data.get(position).getId());
+
+    }
+
+
+    @Override
+    public void onApply(ClassRoomModel classRoomModel) {
+        classListPresenter.addClass(classRoomModel);
     }
 }
