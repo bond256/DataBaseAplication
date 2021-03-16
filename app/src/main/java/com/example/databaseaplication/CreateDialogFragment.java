@@ -32,7 +32,6 @@ public class CreateDialogFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     public static CreateDialogFragment newInstance(FragmentDialogListener fragmentListener) {
         CreateDialogFragment fragment = new CreateDialogFragment();
         fragment.fragmentDialogListener=fragmentListener;

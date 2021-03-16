@@ -14,5 +14,6 @@ public interface ClassListContract {
         void loadClass();
         void addClass(ClassRoomModel classRoom);
         void deleteClassRoom(int id);
+        void editClassRoom(ClassRoomModel classRoomModel);
     }
 }

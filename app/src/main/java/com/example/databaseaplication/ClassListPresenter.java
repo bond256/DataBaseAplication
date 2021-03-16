@@ -9,6 +9,7 @@ import com.example.databaseaplication.Model.ClassRoomModel;
 import com.example.databaseaplication.repositoty.ClassRepository;
 
 import java.util.List;
+import java.util.TreeMap;
 
 
 public class ClassListPresenter implements ClassListContract.ClassListPresenter {
@@ -51,6 +52,17 @@ public class ClassListPresenter implements ClassListContract.ClassListPresenter 
                 }else view.showError();
             });
         }).start();
+    }
+
+    @Override
+    public void editClassRoom(ClassRoomModel classRoomModel) {
+        new Thread(()->{
+            handler.post(()->{
+                classRepository.editClassRoom(classRoomModel);
+            });
+        }).start();
 
     }
+
+
 }

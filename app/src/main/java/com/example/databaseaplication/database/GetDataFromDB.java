@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.strictmode.IntentReceiverLeakedViolation;
 
 import com.example.databaseaplication.Model.ClassRoomModel;
 
@@ -63,5 +64,16 @@ public class GetDataFromDB {
 
     public int deleteClassRoom(Integer id){
        return database.delete("classroom","_id= "+id,null);
+    }
+
+    public int updateClassRoom(ClassRoomModel classRoomModel){
+        Integer id=classRoomModel.getId();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("name",classRoomModel.getName());
+        contentValues.put("roomNumber",classRoomModel.getNumberRoom());
+        contentValues.put("level",classRoomModel.getLevel());
+        contentValues.put("typeOfClass",classRoomModel.getTypeOfClass());
+
+        return database.update("classroom",contentValues,"_id= "+id,null);
     }
 }

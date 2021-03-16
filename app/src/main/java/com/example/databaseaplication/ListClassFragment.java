@@ -21,13 +21,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListClassFragment extends Fragment implements ClassListContract.View, ClassAdapter.ItemClickListener, CreateDialogFragment.FragmentDialogListener {
+public class ListClassFragment extends Fragment implements ClassListContract.View,
+        ClassAdapter.ItemClickListener,
+        CreateDialogFragment.FragmentDialogListener,
+        ClassAdapter.ItemMenuListener,
+        EditDialogFragment.FragmentEditListener {
 
     private RecyclerView classRecycler;
     private ClassListPresenter classListPresenter;
     private ClassAdapter classAdapter;
     private ArrayList<ClassRoomModel> data;
     private CreateDialogFragment createDialogFragment;
+    private EditDialogFragment editDialogFragment;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,6 +78,7 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
         classRecycler.setLayoutManager(layoutManager);
         classAdapter=new ClassAdapter(data,this);
+        classAdapter.setOnItemMenuClickListener(this);
         classRecycler.setAdapter(classAdapter);
         classListPresenter=new ClassListPresenter(this, getContext());
         classListPresenter.loadClass();
@@ -120,5 +126,23 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
         classListPresenter.addClass(classRoomModel);
         getParentFragmentManager().beginTransaction().remove(createDialogFragment).commit();
 
+    }
+
+    @Override
+    public void onEditClick(int position) {
+        editDialogFragment=EditDialogFragment.newInstance(this,)
+        getParentFragmentManager().beginTransaction()
+                .add(R.id.main_fragment,createDialogFragment,null)
+                .commit();
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        classListPresenter.deleteClassRoom(data.get(position).getId());
+    }
+
+    @Override
+    public void onEdit(ClassRoomModel classRoomModel) {
+         classListPresenter.editClassRoom(classRoomModel);
     }
 }

@@ -27,4 +27,8 @@ public class ClassRepository {
     public int deleteClassRoom(int id){
         return classData.deleteClassRoom(id);
     }
+
+    public int editClassRoom(ClassRoomModel classRoomModel){
+        return classData.updateClassRoom(classRoomModel);
+    }
 }
