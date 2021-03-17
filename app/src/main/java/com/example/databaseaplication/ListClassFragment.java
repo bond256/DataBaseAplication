@@ -71,34 +71,30 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_list_class, container, false);
-        FloatingActionButton floatingActionButton=view.findViewById(R.id.floatingActionButton);
-        classRecycler= view.findViewById(R.id.classRecycler);
-        data=new ArrayList<>();
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
+        View view = inflater.inflate(R.layout.fragment_list_class, container, false);
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);
+        classRecycler = view.findViewById(R.id.classRecycler);
+        data = new ArrayList<>();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         classRecycler.setLayoutManager(layoutManager);
-        classAdapter=new ClassAdapter(data,this);
+        classAdapter = new ClassAdapter(data, this);
         classAdapter.setOnItemMenuClickListener(this);
         classRecycler.setAdapter(classAdapter);
-        classListPresenter=new ClassListPresenter(this, getContext());
+        classListPresenter = new ClassListPresenter(this, getContext());
         classListPresenter.loadClass();
-        ClassRoomModel classRoomModel=new ClassRoomModel(0,"chemestry","univers",111,5);
         floatingActionButton.setOnClickListener(v -> {
-            //classListPresenter.addClass(classRoomModel);
-            createDialogFragment=CreateDialogFragment.newInstance(this);
+            createDialogFragment = CreateDialogFragment.newInstance(this);
             getParentFragmentManager().beginTransaction()
-                    .add(R.id.main_fragment,createDialogFragment,null)
+                    .add(R.id.main_fragment, createDialogFragment, null)
                     .commit();
-
         });
-
         return view;
     }
 
 
     @Override
     public void showList(List<ClassRoomModel> classRooms) {
-        if(classRooms.isEmpty()){
+        if (classRooms.isEmpty()) {
             data.clear();
             classAdapter.notifyDataSetChanged();
             return;
@@ -111,13 +107,11 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
     @Override
     public void showError() {
         Log.d("tag", "showError: ");
-
     }
 
     @Override
     public void onItemClick(int position) {
         classListPresenter.deleteClassRoom(data.get(position).getId());
-
     }
 
 
@@ -125,14 +119,14 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
     public void onApply(ClassRoomModel classRoomModel) {
         classListPresenter.addClass(classRoomModel);
         getParentFragmentManager().beginTransaction().remove(createDialogFragment).commit();
-
+        createDialogFragment = null;
     }
 
     @Override
     public void onEditClick(int position) {
-        editDialogFragment=EditDialogFragment.newInstance(this,)
+        editDialogFragment = EditDialogFragment.newInstance(this, data.get(position));
         getParentFragmentManager().beginTransaction()
-                .add(R.id.main_fragment,createDialogFragment,null)
+                .add(R.id.main_fragment, editDialogFragment, null)
                 .commit();
     }
 
@@ -143,6 +137,9 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
 
     @Override
     public void onEdit(ClassRoomModel classRoomModel) {
-         classListPresenter.editClassRoom(classRoomModel);
+        classListPresenter.editClassRoom(classRoomModel);
+        getParentFragmentManager().beginTransaction().remove(editDialogFragment).commit();
+        editDialogFragment=null;
     }
+
 }

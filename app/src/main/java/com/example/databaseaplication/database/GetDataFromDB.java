@@ -73,7 +73,6 @@ public class GetDataFromDB {
         contentValues.put("roomNumber",classRoomModel.getNumberRoom());
         contentValues.put("level",classRoomModel.getLevel());
         contentValues.put("typeOfClass",classRoomModel.getTypeOfClass());
-
         return database.update("classroom",contentValues,"_id= "+id,null);
     }
 }

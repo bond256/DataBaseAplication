@@ -34,7 +34,7 @@ public class CreateDialogFragment extends Fragment {
 
     public static CreateDialogFragment newInstance(FragmentDialogListener fragmentListener) {
         CreateDialogFragment fragment = new CreateDialogFragment();
-        fragment.fragmentDialogListener=fragmentListener;
+        fragment.fragmentDialogListener = fragmentListener;
         return fragment;
     }
 
@@ -50,21 +50,21 @@ public class CreateDialogFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_create_dialog, container, false);
-        nameClass=view.findViewById(R.id.nameClassRoom);
-        numberClass=view.findViewById(R.id.numberClassRoom);
-        floorClass=view.findViewById(R.id.floorClassRoom);
-        typeClass=view.findViewById(R.id.typeOfClass);
-        createButton=view.findViewById(R.id.create_class_room);
-        createButton.setOnClickListener(v->{
-            String name=nameClass.getText().toString();
-            String number=numberClass.getText().toString();
-            String floor=floorClass.getText().toString();
-            String type=typeClass.getText().toString();
+        View view = inflater.inflate(R.layout.fragment_create_dialog, container, false);
+        nameClass = view.findViewById(R.id.nameClassRoom);
+        numberClass = view.findViewById(R.id.numberClassRoom);
+        floorClass = view.findViewById(R.id.floorClassRoom);
+        typeClass = view.findViewById(R.id.typeOfClass);
+        createButton = view.findViewById(R.id.create_class_room);
+        createButton.setOnClickListener(v -> {
+            String name = nameClass.getText().toString();
+            String number = numberClass.getText().toString();
+            String floor = floorClass.getText().toString();
+            String type = typeClass.getText().toString();
 //            if(name.equals(" ")){
 //                Toast.makeText(getActivity(), "Please input data", Toast.LENGTH_SHORT).show();
 //            }else if()
-            fragmentDialogListener.onApply(new ClassRoomModel(0,name,type,Integer.valueOf(number),Integer.valueOf(floor)));
+            fragmentDialogListener.onApply(new ClassRoomModel(0, name, type, Integer.valueOf(number), Integer.valueOf(floor)));
         });
         return view;
     }
@@ -72,7 +72,7 @@ public class CreateDialogFragment extends Fragment {
 
     static
 
-    public interface FragmentDialogListener{
+    public interface FragmentDialogListener {
         void onApply(ClassRoomModel classRoomModel);
     }
 }
