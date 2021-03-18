@@ -1,15 +1,11 @@
-package com.example.databaseaplication;
+package com.example.databaseaplication.classRoom;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 
 import com.example.databaseaplication.Model.ClassRoomModel;
 import com.example.databaseaplication.repositoty.ClassRepository;
-
-import java.util.List;
-import java.util.TreeMap;
 
 
 public class ClassListPresenter implements ClassListContract.ClassListPresenter {
@@ -17,7 +13,7 @@ public class ClassListPresenter implements ClassListContract.ClassListPresenter 
     private final ClassRepository classRepository;
     private final Handler handler;
 
-    ClassListPresenter(ClassListContract.View view, Context context) {
+    public ClassListPresenter(ClassListContract.View view, Context context) {
         this.view = view;
         this.classRepository = new ClassRepository(context);
         handler = new Handler(Looper.getMainLooper());
@@ -36,7 +32,7 @@ public class ClassListPresenter implements ClassListContract.ClassListPresenter 
     public void addClass(ClassRoomModel classRoom) {
         new Thread(() -> {
             handler.post(() -> {
-                if (classRepository.addClassRoom(classRoom) > 1) {
+                if (classRepository.addClassRoom(classRoom) > 0) {
                     view.showList(classRepository.getClassRooms());
                 } else view.showError();
             });
@@ -49,7 +45,6 @@ public class ClassListPresenter implements ClassListContract.ClassListPresenter 
         new Thread(() -> {
             handler.post(() -> {
                 if (classRepository.deleteClassRoom(id) > 0) {
-                    view.showList(classRepository.getClassRooms());
                 } else view.showError();
             });
         }).start();

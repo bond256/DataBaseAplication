@@ -1,4 +1,4 @@
-package com.example.databaseaplication;
+package com.example.databaseaplication.classRoom;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -12,17 +12,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.databaseaplication.Adapters.ClassAdapter;
 import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.R;
+import com.example.databaseaplication.classRoom.ClassListContract;
+import com.example.databaseaplication.classRoom.ClassListPresenter;
+import com.example.databaseaplication.classRoom.CreateDialogFragment;
+import com.example.databaseaplication.classRoom.EditDialogFragment;
+import com.example.databaseaplication.classdetail.ClassDetailFragmnet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListClassFragment extends Fragment implements ClassListContract.View,
-        ClassAdapter.ItemClickListener,
         CreateDialogFragment.FragmentDialogListener,
         ClassAdapter.ItemMenuListener,
         EditDialogFragment.FragmentEditListener {
@@ -34,38 +38,6 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
     private CreateDialogFragment createDialogFragment;
     private EditDialogFragment editDialogFragment;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ListClassFragment() {
-        // Required empty public constructor
-    }
-
-
-    // TODO: Rename and change types and number of parameters
-    public static ListClassFragment newInstance(String param1, String param2) {
-        ListClassFragment fragment = new ListClassFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -77,7 +49,7 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
         data = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         classRecycler.setLayoutManager(layoutManager);
-        classAdapter = new ClassAdapter(data, this);
+        classAdapter = new ClassAdapter(data);
         classAdapter.setOnItemMenuClickListener(this);
         classRecycler.setAdapter(classAdapter);
         classListPresenter = new ClassListPresenter(this, getContext());
@@ -85,6 +57,7 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
         floatingActionButton.setOnClickListener(v -> {
             createDialogFragment = CreateDialogFragment.newInstance(this);
             getParentFragmentManager().beginTransaction()
+                    .addToBackStack("fsdfsdf")
                     .add(R.id.main_fragment, createDialogFragment, null)
                     .commit();
         });
@@ -111,7 +84,12 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
 
     @Override
     public void onItemClick(int position) {
-        classListPresenter.deleteClassRoom(data.get(position).getId());
+        ClassDetailFragmnet classDetailFragmnet=new ClassDetailFragmnet();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.main_fragment,classDetailFragmnet,null)
+                .commit();
+        //classListPresenter.deleteClassRoom(data.get(position).getId());
+        Log.d("tag", "onItemClick: ");
     }
 
 
@@ -133,13 +111,15 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
     @Override
     public void onDeleteClick(int position) {
         classListPresenter.deleteClassRoom(data.get(position).getId());
+        data.remove(position);
+        classAdapter.notifyItemRemoved(position);
     }
 
     @Override
     public void onEdit(ClassRoomModel classRoomModel) {
         classListPresenter.editClassRoom(classRoomModel);
         getParentFragmentManager().beginTransaction().remove(editDialogFragment).commit();
-        editDialogFragment=null;
+        editDialogFragment = null;
     }
 
 }

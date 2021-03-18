@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.databaseaplication.classRoom.ListClassFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -12,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportFragmentManager()
                 .beginTransaction()
+                 .addToBackStack("tr")
                 .add(R.id.main_fragment,new ListClassFragment(),null)
                 .commit();
     }

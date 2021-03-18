@@ -19,13 +19,13 @@ import java.util.List;
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> {
 
     private List<ClassRoomModel> classRoomsData;
-    private ItemClickListener itemClickListener;
+    //private ItemClickListener itemClickListener;
     private ItemMenuListener itemMenuListener;
 
 
-    public ClassAdapter(List<ClassRoomModel> classRoomsData,ItemClickListener itemClickListener) {
+    public ClassAdapter(List<ClassRoomModel> classRoomsData) {
         this.classRoomsData = classRoomsData;
-        this.itemClickListener=itemClickListener;
+        //this.itemClickListener=itemClickListener;
     }
 
     public void setOnItemMenuClickListener(ItemMenuListener itemMenuClickListener){
@@ -36,7 +36,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_list, parent, false);
-        return new ViewHolder(view,itemClickListener,itemMenuListener);
+        return new ViewHolder(view,itemMenuListener);
     }
 
     @Override
@@ -49,30 +49,25 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         return classRoomsData.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
         private final TextView nameClass;
         private final ImageButton editButton;
         private final ImageButton deleteButton;
-        private final ItemClickListener itemClickListener;
+        //private final ItemClickListener itemClickListener;
         private final ItemMenuListener itemMenuListener;
 
-        public ViewHolder(View view,ItemClickListener itemClickListener,ItemMenuListener itemMenuListener) {
+        public ViewHolder(View view,ItemMenuListener itemMenuListener) {
             super(view);
             nameClass = view.findViewById(R.id.nameClass);
             editButton=view.findViewById(R.id.editClassRoom);
             deleteButton=view.findViewById(R.id.deleteClassRoom);
-            this.itemClickListener=itemClickListener;
+            //this.itemClickListener=itemClickListener;
             this.itemMenuListener=itemMenuListener;
-            view.setOnLongClickListener(this);
+            view.setOnClickListener(this);
             editButton.setOnClickListener(this);
             deleteButton.setOnClickListener(this);
         }
 
-        @Override
-        public boolean onLongClick(View v) {
-            itemClickListener.onItemClick(getAdapterPosition());
-            return true;
-        }
 
         @SuppressLint("NonConstantResourceId")
         @Override
@@ -82,6 +77,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
                 break;
                 case R.id.deleteClassRoom: itemMenuListener.onDeleteClick(getAdapterPosition());
                 break;
+                case R.id.item_class: itemMenuListener.onItemClick(getAdapterPosition());
             }
         }
     }
@@ -94,6 +90,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
     public interface ItemMenuListener{
         void onEditClick(int position);
         void onDeleteClick(int position);
+        void onItemClick(int position);
     }
 
 

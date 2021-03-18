@@ -1,4 +1,4 @@
-package com.example.databaseaplication;
+package com.example.databaseaplication.classRoom;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.R;
 
 
 public class EditDialogFragment extends Fragment {

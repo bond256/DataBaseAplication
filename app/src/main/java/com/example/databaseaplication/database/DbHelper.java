@@ -9,13 +9,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private String name;
-    private Integer version;
-    private final String TABLE_NAME_OF_CLASS="classroom";
-    final String ID="_id";
-    final String NAME="name";
-    final String ROOM="roomNumber";
-    final String LEVEL="level";
+    public static final String TABLE_NAME_OF_CLASS="classroom";
+    public static final String ID="_id";
+    public static final String NAME="name";
+    public static final String ROOM_NUMBER="roomNumber";
+    public static final String LEVEL="level";
+    public static final String TYPE_OF_CLASS="typeOfClass";
+    public static final String DATABASE_NAME="classroom";
+
 
     public DbHelper(@Nullable Context context) {
         super(context, "classroom", null, 1);
@@ -31,4 +32,5 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.databaseaplication;
+package com.example.databaseaplication.classRoom;
 
 import android.os.Bundle;
 
@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.R;
 
 public class CreateDialogFragment extends Fragment {
     private EditText nameClass;

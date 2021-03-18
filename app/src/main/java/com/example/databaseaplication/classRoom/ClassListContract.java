@@ -1,4 +1,4 @@
-package com.example.databaseaplication;
+package com.example.databaseaplication.classRoom;
 
 import com.example.databaseaplication.Model.ClassRoomModel;
 
