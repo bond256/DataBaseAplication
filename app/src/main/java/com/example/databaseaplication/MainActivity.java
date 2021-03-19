@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportFragmentManager()
                 .beginTransaction()
-                 .addToBackStack("tr")
                 .add(R.id.main_fragment,new ListClassFragment(),null)
                 .commit();
     }

@@ -16,11 +16,7 @@ import android.view.ViewGroup;
 import com.example.databaseaplication.Adapters.ClassAdapter;
 import com.example.databaseaplication.Model.ClassRoomModel;
 import com.example.databaseaplication.R;
-import com.example.databaseaplication.classRoom.ClassListContract;
-import com.example.databaseaplication.classRoom.ClassListPresenter;
-import com.example.databaseaplication.classRoom.CreateDialogFragment;
-import com.example.databaseaplication.classRoom.EditDialogFragment;
-import com.example.databaseaplication.classdetail.ClassDetailFragmnet;
+import com.example.databaseaplication.classdetail.ClassDetailFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -84,12 +80,11 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
 
     @Override
     public void onItemClick(int position) {
-        ClassDetailFragmnet classDetailFragmnet=new ClassDetailFragmnet();
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_fragment,classDetailFragmnet,null)
+        ClassDetailFragment classDetailFragment = new ClassDetailFragment();
+        getParentFragmentManager().beginTransaction()
+                .addToBackStack("detail")
+                .add(R.id.main_fragment, classDetailFragment, null)
                 .commit();
-        //classListPresenter.deleteClassRoom(data.get(position).getId());
-        Log.d("tag", "onItemClick: ");
     }
 
 

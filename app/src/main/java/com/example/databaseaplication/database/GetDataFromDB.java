@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.strictmode.IntentReceiverLeakedViolation;
 
 import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.Model.StudentModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +56,10 @@ public class GetDataFromDB {
 
     public int deleteClassRoom(int id) {
         int result = database.delete(DbHelper.TABLE_NAME_OF_CLASS, "_id= " + id, null);
-        database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS + " WHERE "+ DbHelper.ID+ " = "+ id+";");
+        //database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS + " WHERE "+ DbHelper.ID+ " = "+ id+";");
         //database.execSQL("UPDATE " + DbHelper.TABLE_NAME_OF_CLASS + " SET " + DbHelper.ID + " = " + DbHelper.ID + " -1 " + " WHERE " + DbHelper.ID + " > " + id + ";");
-        database.execSQL(" DELETE FROM "+ "sqlite_sequence"  + " WHERE "+ "name" +" = " + DbHelper.TABLE_NAME_OF_CLASS+";");
-        return 1;
+        //database.execSQL(" DELETE FROM "+ "sqlite_sequence"  + " WHERE "+ "name" +" = " + DbHelper.TABLE_NAME_OF_CLASS+";");
+        return result;
     }
 
     public int updateClassRoom(ClassRoomModel classRoomModel) {
@@ -69,5 +70,15 @@ public class GetDataFromDB {
         contentValues.put(DbHelper.LEVEL, classRoomModel.getLevel());
         contentValues.put(DbHelper.TYPE_OF_CLASS, classRoomModel.getTypeOfClass());
         return database.update(DbHelper.TABLE_NAME_OF_CLASS, contentValues, "_id= " + id.toString(), null);
+    }
+
+    public void addNewStudent(StudentModel studentModel){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbHelper.FIRST_NAME,studentModel.getFirstName());
+        contentValues.put(DbHelper.SECOND_NAME,studentModel.getSecondName());
+        contentValues.put(DbHelper.CLASS_ID,studentModel.getClassId());
+        contentValues.put(DbHelper.GENDER,studentModel.getGender());
+        contentValues.put(DbHelper.AGE,studentModel.getAge());
+        database.insert(DbHelper.TABLE_NAME_OF_STUDENTS,null,contentValues);
     }
 }
