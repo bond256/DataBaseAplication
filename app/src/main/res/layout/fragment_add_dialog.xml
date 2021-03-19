@@ -78,19 +78,14 @@
                 android:textSize="18sp"
                 android:textStyle="bold|italic" />
 
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
-            <EditText
-                android:id="@+id/floorClassRoom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+            <Spinner
+                android:id="@+id/spinnerGender"
+                android:layout_width="212dp"
+                android:layout_height="34dp"
                 android:layout_gravity="center"
-                android:ems="10"
-                android:inputType="number" />
+                android:layout_marginTop="10dp"
+                android:entries="@array/gender" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -103,7 +98,7 @@
                 android:textStyle="bold|italic" />
 
             <EditText
-                android:id="@+id/typeOfClass"
+                android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -112,7 +107,7 @@
                 android:inputType="number" />
 
             <Button
-                android:id="@+id/create_class_room"
+                android:id="@+id/create_student"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

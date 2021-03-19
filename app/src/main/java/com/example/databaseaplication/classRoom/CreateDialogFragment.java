@@ -53,9 +53,9 @@ public class CreateDialogFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_create_dialog, container, false);
         nameClass = view.findViewById(R.id.nameClassRoom);
         numberClass = view.findViewById(R.id.numberClassRoom);
-        floorClass = view.findViewById(R.id.floorClassRoom);
-        typeClass = view.findViewById(R.id.typeOfClass);
-        createButton = view.findViewById(R.id.create_class_room);
+        floorClass = view.findViewById(R.id.spinnerGender);
+        typeClass = view.findViewById(R.id.age);
+        createButton = view.findViewById(R.id.create_student);
         createButton.setOnClickListener(v -> {
             String name = nameClass.getText().toString();
             String number = numberClass.getText().toString();

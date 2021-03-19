@@ -79,7 +79,7 @@
                 android:textStyle="bold|italic" />
 
             <EditText
-                android:id="@+id/floorClassRoom"
+                android:id="@+id/spinnerGender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -98,7 +98,7 @@
                 android:textStyle="bold|italic" />
 
             <EditText
-                android:id="@+id/typeOfClass"
+                android:id="@+id/age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -107,7 +107,7 @@
                 android:inputType="textPersonName" />
 
             <Button
-                android:id="@+id/create_class_room"
+                android:id="@+id/create_student"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

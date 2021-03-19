@@ -13,4 +13,8 @@
     <string name="second_name">Second Name</string>
     <string name="gender">GENDER</string>
     <string name="age">Age</string>
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>
