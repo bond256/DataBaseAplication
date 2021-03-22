@@ -13,22 +13,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.databaseaplication.Model.ClassRoomModel;
 import com.example.databaseaplication.Model.StudentModel;
 import com.example.databaseaplication.R;
 
 
 public class AddDialogFragment extends Fragment {
     private AddDialogListener addDialogListener;
+    private String classId;
     private Spinner spinner;
     private EditText firstName;
     private EditText secondName;
-    private EditText age;
+    private EditText ageStudent;
     private String gender;
     private Button createButton;
 
-    public static AddDialogFragment newInstance(AddDialogListener addDialogListener) {
+    public static AddDialogFragment newInstance(AddDialogListener addDialogListener, String id) {
         AddDialogFragment fragment = new AddDialogFragment();
         fragment.addDialogListener=addDialogListener;
+        fragment.classId=id;
         return fragment;
     }
 
@@ -43,11 +46,8 @@ public class AddDialogFragment extends Fragment {
         spinner.setAdapter(arrayAdapter);
         firstName=view.findViewById(R.id.firstName);
         secondName=view.findViewById(R.id.secondName);
-        age=view.findViewById(R.id.age);
+        ageStudent=view.findViewById(R.id.age);
         createButton=view.findViewById(R.id.create_student);
-        String name=firstName.getText().toString();
-        String surname=secondName.getText().toString();
-        String age=secondName.getText().toString();
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -60,7 +60,10 @@ public class AddDialogFragment extends Fragment {
             }
         });
         createButton.setOnClickListener(v->{
-            addDialogListener.addCLick(new StudentModel(0,name,surname,0));
+            String name=firstName.getText().toString();
+            String surname=secondName.getText().toString();
+            String age=ageStudent.getText().toString();
+            addDialogListener.addCLick(new StudentModel(0,name,surname,Integer.valueOf(classId),gender,Integer.valueOf(age)));
         });
         return view;
     }

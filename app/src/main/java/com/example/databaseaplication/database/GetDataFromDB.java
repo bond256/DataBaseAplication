@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.strictmode.IntentReceiverLeakedViolation;
 
 import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.Model.MarksModel;
 import com.example.databaseaplication.Model.StudentModel;
 
 import java.util.ArrayList;
@@ -72,13 +73,97 @@ public class GetDataFromDB {
         return database.update(DbHelper.TABLE_NAME_OF_CLASS, contentValues, "_id= " + id.toString(), null);
     }
 
-    public void addNewStudent(StudentModel studentModel){
+    public void addNewStudent(StudentModel studentModel) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DbHelper.FIRST_NAME,studentModel.getFirstName());
-        contentValues.put(DbHelper.SECOND_NAME,studentModel.getSecondName());
-        contentValues.put(DbHelper.CLASS_ID,studentModel.getClassId());
-        contentValues.put(DbHelper.GENDER,studentModel.getGender());
-        contentValues.put(DbHelper.AGE,studentModel.getAge());
-        database.insert(DbHelper.TABLE_NAME_OF_STUDENTS,null,contentValues);
+        contentValues.put(DbHelper.FIRST_NAME, studentModel.getFirstName());
+        contentValues.put(DbHelper.SECOND_NAME, studentModel.getSecondName());
+        contentValues.put(DbHelper.CLASS_ID, studentModel.getClassId());
+        contentValues.put(DbHelper.GENDER, studentModel.getGender());
+        contentValues.put(DbHelper.AGE, studentModel.getAge());
+        database.insert(DbHelper.TABLE_NAME_OF_STUDENTS, null, contentValues);
     }
+
+    public ClassRoomModel getClassRoomDetail(int id) {
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_OF_CLASS, null, DbHelper.ID + "=" + id, null, null, null, null);
+        int idIndex = cursor.getColumnIndex(DbHelper.ID);
+        int nameIndex = cursor.getColumnIndex(DbHelper.NAME);
+        int roomNumberIndex = cursor.getColumnIndex(DbHelper.ROOM_NUMBER);
+        int levelIndex = cursor.getColumnIndex(DbHelper.LEVEL);
+        int typeOfClassIndex = cursor.getColumnIndex(DbHelper.TYPE_OF_CLASS);
+        cursor.moveToFirst();
+        Integer idClass = cursor.getInt(idIndex);
+        String name = cursor.getString(nameIndex);
+        Integer numberRoom = cursor.getInt(roomNumberIndex);
+        Integer level = cursor.getInt(levelIndex);
+        String typeOfClass = cursor.getString(typeOfClassIndex);
+        return new ClassRoomModel(idClass, name, typeOfClass, numberRoom, level);
+    }
+
+    public List<StudentModel> getStudents(int id) {
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_OF_STUDENTS, null, DbHelper.CLASS_ID + "=" + id, null, null, null, null);
+        ArrayList<StudentModel> dataStudents = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+
+            int idIndex = cursor.getColumnIndex(DbHelper.ID);
+            int name = cursor.getColumnIndex(DbHelper.FIRST_NAME);
+            int second = cursor.getColumnIndex(DbHelper.SECOND_NAME);
+            int gender = cursor.getColumnIndex(DbHelper.GENDER);
+            int age = cursor.getColumnIndex(DbHelper.AGE);
+            int idClass = cursor.getColumnIndex(DbHelper.CLASS_ID);
+            do {
+                Integer idStudent = cursor.getInt(idIndex);
+                String firstName = cursor.getString(name);
+                String secondName = cursor.getString(second);
+                String genderStudent = cursor.getString(gender);
+                Integer ageStudent = cursor.getInt(age);
+                Integer classId = cursor.getInt(idClass);
+                dataStudents.add(new StudentModel(idStudent, firstName, secondName, classId, genderStudent, ageStudent));
+            } while (cursor.moveToNext());
+        }
+        return dataStudents;
+    }
+
+    public int deleteStudent(int id){
+        return database.delete(DbHelper.TABLE_NAME_OF_STUDENTS,DbHelper.ID+"="+id,null);
+    }
+
+    public int editStudent(StudentModel studentModel){
+        int id=studentModel.getId();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbHelper.FIRST_NAME, studentModel.getFirstName());
+        contentValues.put(DbHelper.SECOND_NAME, studentModel.getSecondName());
+        contentValues.put(DbHelper.CLASS_ID, studentModel.getClassId());
+        contentValues.put(DbHelper.GENDER, studentModel.getGender());
+        contentValues.put(DbHelper.AGE, studentModel.getAge());
+        return database.update(DbHelper.TABLE_NAME_OF_STUDENTS,contentValues,DbHelper.ID+"="+id,null);
+    }
+
+    public void addMarks(MarksModel marksModel){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DbHelper.SUBJECT_NAME, marksModel.getSubjectName());
+        contentValues.put(DbHelper.STUDENT_ID, marksModel.getStudentId());
+        contentValues.put(DbHelper.MARK, marksModel.getMark());
+        contentValues.put(DbHelper.DATA_MARK, marksModel.getDataMark());
+        database.insert(DbHelper.TABLE_NAME_OF_MARKS, null, contentValues);
+    }
+
+    public StudentModel getStudentDetail(int id){
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_OF_STUDENTS, null, DbHelper.ID + "=" + id, null, null, null, null);
+        cursor.moveToFirst();
+            int idIndex = cursor.getColumnIndex(DbHelper.ID);
+            int name = cursor.getColumnIndex(DbHelper.FIRST_NAME);
+            int second = cursor.getColumnIndex(DbHelper.SECOND_NAME);
+            int gender = cursor.getColumnIndex(DbHelper.GENDER);
+            int age = cursor.getColumnIndex(DbHelper.AGE);
+            int idClass = cursor.getColumnIndex(DbHelper.CLASS_ID);
+                Integer idStudent = cursor.getInt(idIndex);
+                String firstName = cursor.getString(name);
+                String secondName = cursor.getString(second);
+                String genderStudent = cursor.getString(gender);
+                Integer ageStudent = cursor.getInt(age);
+                Integer classId = cursor.getInt(idClass);
+        return new StudentModel(idStudent, firstName, secondName, classId, genderStudent, ageStudent);
+    }
+
 }

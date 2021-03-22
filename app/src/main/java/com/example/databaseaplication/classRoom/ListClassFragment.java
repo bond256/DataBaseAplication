@@ -81,6 +81,9 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
     @Override
     public void onItemClick(int position) {
         ClassDetailFragment classDetailFragment = new ClassDetailFragment();
+        Bundle bundle=new Bundle();
+        bundle.putString("id",data.get(position).getId().toString());
+        classDetailFragment.setArguments(bundle);
         getParentFragmentManager().beginTransaction()
                 .addToBackStack("detail")
                 .add(R.id.main_fragment, classDetailFragment, null)

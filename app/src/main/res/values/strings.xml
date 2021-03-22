@@ -8,7 +8,7 @@
     <string name="floor">Floor</string>
     <string name="room_number">Room Number</string>
     <string name="name">Name</string>
-    <string name="create_class_room">Create Class Room</string>
+    <string name="create_class_room">Edit Student</string>
     <string name="first_name">First Name</string>
     <string name="second_name">Second Name</string>
     <string name="gender">GENDER</string>

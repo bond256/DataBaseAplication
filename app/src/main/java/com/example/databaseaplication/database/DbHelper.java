@@ -29,7 +29,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     public DbHelper(@Nullable Context context) {
-        super(context, "classroom", null, 1);
+        super(context, "classroom", null, 2);
     }
 
 
