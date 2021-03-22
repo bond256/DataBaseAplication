@@ -28,4 +28,9 @@ public class StudentDetailPresenter implements StudentDetailContract.StudentDeta
     public void addMark(MarksModel marksModel) {
         studentDetailRepository.addMarks(marksModel);
     }
+
+    @Override
+    public void loadMarks(int id) {
+        view.showMarks(studentDetailRepository.getMarks(id));
+    }
 }

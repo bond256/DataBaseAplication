@@ -16,8 +16,8 @@ public class StudentDetailRepository {
         this.getDataFromDB = new GetDataFromDB(context);
     }
 
-    public List<MarksModel> getMarks(){
-        return new ArrayList<>();
+    public List<MarksModel> getMarks(int id){
+        return getDataFromDB.getMarks(id);
     }
 
     public int addMarks(MarksModel marksModel){

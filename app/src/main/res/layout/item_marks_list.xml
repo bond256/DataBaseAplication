@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_class"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#C82020"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="227dp"
+            android:layout_height="69dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameSubject"
+                android:layout_width="227dp"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/markSubject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/dateSubject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/editMark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:background="#C82020"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+
+        <ImageButton
+            android:id="@+id/deleteMark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:background="#C82020"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="#6F16A6" />
+
+</LinearLayout>

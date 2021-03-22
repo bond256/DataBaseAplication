@@ -10,54 +10,60 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.databaseaplication.Model.MarksModel;
 import com.example.databaseaplication.Model.StudentModel;
 import com.example.databaseaplication.R;
 
 import java.util.List;
 
-public class MarksAdapter extends RecyclerView.Adapter<> {
-    private List<StudentModel> studentsData;
-    private StudentsAdapter.ItemMenuListener itemMenuListener;
+public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.ViewHolder> {
+    private List<MarksModel> marksData;
+    private ItemMenuListener itemMenuListener;
 
 
-    public MarksAdapter(List<StudentModel> studentModelsList) {
-        this.studentsData=studentModelsList;
-        //this.itemClickListener=itemClickListener;
+    public MarksAdapter(List<MarksModel> marksModelsList) {
+        this.marksData=marksModelsList;
     }
 
-    public void setOnItemMenuClickListener(StudentsAdapter.ItemMenuListener itemMenuClickListener){
+    public void setOnItemMenuClickListener(ItemMenuListener itemMenuClickListener){
         this.itemMenuListener=itemMenuClickListener;
     }
 
     @NonNull
     @Override
-    public StudentsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_students_list, parent, false);
-        return new StudentsAdapter.ViewHolder(view,itemMenuListener);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_marks_list, parent, false);
+        return new ViewHolder(view,itemMenuListener);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nameStudent.setText(studentsData.get(position).getFirstName()+" "+studentsData.get(position).getSecondName());
+        holder.nameSubject.setText(marksData.get(position).getSubjectName());
+        holder.markSubject.setText(marksData.get(position).getMark().toString());
+        holder.dateSubject.setText(marksData.get(position).getDataMark());
     }
 
     @Override
     public int getItemCount() {
-        return studentsData.size();
+        return marksData.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
-        private final TextView nameStudent;
+        private final TextView nameSubject;
+        private final TextView markSubject;
+        private final TextView dateSubject;
         private final ImageButton editButton;
         private final ImageButton deleteButton;
-        private final StudentsAdapter.ItemMenuListener itemMenuListener;
+        private final ItemMenuListener itemMenuListener;
 
-        public ViewHolder(View view, StudentsAdapter.ItemMenuListener itemMenuListener) {
+        public ViewHolder(View view, ItemMenuListener itemMenuListener) {
             super(view);
-            nameStudent = view.findViewById(R.id.nameStudent);
-            editButton=view.findViewById(R.id.editStudent);
-            deleteButton=view.findViewById(R.id.deleteStudent);
+            nameSubject = view.findViewById(R.id.nameSubject);
+            markSubject=view.findViewById(R.id.markSubject);
+            dateSubject=view.findViewById(R.id.dateSubject);
+            editButton=view.findViewById(R.id.editMark);
+            deleteButton=view.findViewById(R.id.deleteMark);
             this.itemMenuListener=itemMenuListener;
             view.setOnClickListener(this);
             editButton.setOnClickListener(this);

@@ -166,4 +166,27 @@ public class GetDataFromDB {
         return new StudentModel(idStudent, firstName, secondName, classId, genderStudent, ageStudent);
     }
 
+    public List<MarksModel> getMarks(int id){
+        Cursor cursor = database.query(DbHelper.TABLE_NAME_OF_MARKS, null, DbHelper.STUDENT_ID + "=" + id, null, null, null, null);
+        ArrayList<MarksModel> dataMarks = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+
+            int idIndex = cursor.getColumnIndex(DbHelper.ID);
+            int name = cursor.getColumnIndex(DbHelper.SUBJECT_NAME);
+            int mark = cursor.getColumnIndex(DbHelper.MARK);
+            int date = cursor.getColumnIndex(DbHelper.DATA_MARK);
+            int studentId = cursor.getColumnIndex(DbHelper.STUDENT_ID);
+            do {
+                Integer idMark = cursor.getInt(idIndex);
+                String subjectName = cursor.getString(name);
+                Integer subjectMark = cursor.getInt(mark);
+                String dateMark = cursor.getString(date);
+                Integer idStudent = cursor.getInt(studentId);
+                dataMarks.add(new MarksModel(idMark,subjectName,idStudent,subjectMark,dateMark));
+            } while (cursor.moveToNext());
+        }
+        return dataMarks;
+    }
+
 }
