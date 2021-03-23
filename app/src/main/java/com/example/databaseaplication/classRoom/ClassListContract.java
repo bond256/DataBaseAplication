@@ -1,6 +1,6 @@
 package com.example.databaseaplication.classRoom;
 
-import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.model.ClassRoomModel;
 
 import java.util.List;
 

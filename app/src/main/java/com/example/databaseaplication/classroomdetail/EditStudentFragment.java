@@ -1,4 +1,4 @@
-package com.example.databaseaplication.classdetail;
+package com.example.databaseaplication.classroomdetail;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.databaseaplication.Model.StudentModel;
+import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.R;
 
 
@@ -44,18 +44,11 @@ public class EditStudentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_student, container, false);
-        spinner = view.findViewById(R.id.spinnerGenderEdit);
         String[] data = {"Male", "Female"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, data);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        init(view);
         spinner.setAdapter(arrayAdapter);
-        firstName = view.findViewById(R.id.firstNameEdit);
-        secondName = view.findViewById(R.id.secondNameEdit);
-        ageStudent = view.findViewById(R.id.ageEdit);
-        editButton = view.findViewById(R.id.edit_student);
-        firstName.setText(studentModel.getFirstName());
-        secondName.setText(studentModel.getSecondName());
-        ageStudent.setText(studentModel.getAge().toString());
         spinner.setSelection(arrayAdapter.getPosition(studentModel.getGender()));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -77,6 +70,17 @@ public class EditStudentFragment extends Fragment {
             } else Toast.makeText(getActivity(), "Please input data", Toast.LENGTH_LONG).show();
         });
         return view;
+    }
+
+    private void init(View view){
+        spinner = view.findViewById(R.id.spinnerGenderEdit);
+        firstName = view.findViewById(R.id.firstNameEdit);
+        secondName = view.findViewById(R.id.secondNameEdit);
+        ageStudent = view.findViewById(R.id.ageEdit);
+        editButton = view.findViewById(R.id.edit_student);
+        firstName.setText(studentModel.getFirstName());
+        secondName.setText(studentModel.getSecondName());
+        ageStudent.setText(studentModel.getAge().toString());
     }
 
     public interface OnEditStudentListener {

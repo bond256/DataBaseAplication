@@ -1,4 +1,4 @@
-package com.example.databaseaplication.Adapters;
+package com.example.databaseaplication.adapters;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -10,19 +10,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.databaseaplication.Model.StudentModel;
+import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.R;
 
 import java.util.List;
 
-public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHolder> {
-    private List<StudentModel> studentsData;
+public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> {
+
+    private List<ClassRoomModel> classRoomsData;
     private ItemMenuListener itemMenuListener;
 
 
-    public StudentsAdapter(List<StudentModel> studentModelsList) {
-        this.studentsData=studentModelsList;
-        //this.itemClickListener=itemClickListener;
+    public ClassAdapter(List<ClassRoomModel> classRoomsData) {
+        this.classRoomsData = classRoomsData;
     }
 
     public void setOnItemMenuClickListener(ItemMenuListener itemMenuClickListener){
@@ -32,32 +32,31 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_students_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_list, parent, false);
         return new ViewHolder(view,itemMenuListener);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nameStudent.setText(studentsData.get(position).getFirstName()+" "+studentsData.get(position).getSecondName());
+        holder.nameClass.setText(classRoomsData.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return studentsData.size();
+        return classRoomsData.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
-        private final TextView nameStudent;
+        private final TextView nameClass;
         private final ImageButton editButton;
         private final ImageButton deleteButton;
         private final ItemMenuListener itemMenuListener;
 
-        public ViewHolder(View view, ItemMenuListener itemMenuListener) {
+        public ViewHolder(View view,ItemMenuListener itemMenuListener) {
             super(view);
-            nameStudent = view.findViewById(R.id.nameStudent);
-            editButton=view.findViewById(R.id.editStudent);
-            deleteButton=view.findViewById(R.id.deleteStudent);
+            nameClass = view.findViewById(R.id.nameClassRoom);
+            editButton=view.findViewById(R.id.edit_class_room);
+            deleteButton=view.findViewById(R.id.delete_class_room);
             this.itemMenuListener=itemMenuListener;
             view.setOnClickListener(this);
             editButton.setOnClickListener(this);
@@ -69,19 +68,15 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHo
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.editStudent: itemMenuListener.onEditClick(getAdapterPosition());
-                    break;
-                case R.id.deleteStudent: itemMenuListener.onDeleteClick(getAdapterPosition());
-                    break;
+                case R.id.edit_class_room: itemMenuListener.onEditClick(getAdapterPosition());
+                break;
+                case R.id.delete_class_room: itemMenuListener.onDeleteClick(getAdapterPosition());
+                break;
                 case R.id.item_class: itemMenuListener.onItemClick(getAdapterPosition());
+                break;
             }
         }
     }
-
-    public interface ItemClickListener{
-        void onItemClick(int position);
-    }
-
 
     public interface ItemMenuListener{
         void onEditClick(int position);

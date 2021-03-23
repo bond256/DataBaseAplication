@@ -10,8 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.R;
 
 
@@ -56,7 +57,9 @@ public class EditDialogFragment extends Fragment {
             String number = numberClass.getText().toString();
             String floor = floorClass.getText().toString();
             String type = typeClass.getText().toString();
-            fragmentEditListener.onEdit(new ClassRoomModel(editData.getId(), name, type, Integer.valueOf(number), Integer.valueOf(floor)));
+            if (!name.equals("") && !number.equals("") && !floor.equals("") && !type.equals("")) {
+                fragmentEditListener.onEdit(new ClassRoomModel(editData.getId(), name, type, Integer.valueOf(number), Integer.valueOf(floor)));
+            } else Toast.makeText(getActivity(), "Please input data", Toast.LENGTH_LONG).show();
         });
         return view;
     }

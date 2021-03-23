@@ -8,11 +8,15 @@
     <string name="floor">Floor</string>
     <string name="room_number">Room Number</string>
     <string name="name">Name</string>
-    <string name="create_class_room">Edit Student</string>
+    <string name="create_class_room">Create Class Room</string>
     <string name="first_name">First Name</string>
     <string name="second_name">Second Name</string>
     <string name="gender">GENDER</string>
     <string name="age">Age</string>
+    <string name="subject_name">Subject Name</string>
+    <string name="mark">Mark</string>
+    <string name="add_mark">Add Mark</string>
+    <string name="date">Date</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>

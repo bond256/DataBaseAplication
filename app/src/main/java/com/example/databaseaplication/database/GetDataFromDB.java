@@ -4,15 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.strictmode.IntentReceiverLeakedViolation;
 
-import com.example.databaseaplication.Model.ClassRoomModel;
-import com.example.databaseaplication.Model.MarksModel;
-import com.example.databaseaplication.Model.StudentModel;
+import com.example.databaseaplication.model.ClassRoomModel;
+import com.example.databaseaplication.model.MarksModel;
+import com.example.databaseaplication.model.StudentModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.DoubleAccumulator;
 
 public class GetDataFromDB {
     private SQLiteDatabase database;
@@ -57,9 +55,8 @@ public class GetDataFromDB {
 
     public int deleteClassRoom(int id) {
         int result = database.delete(DbHelper.TABLE_NAME_OF_CLASS, "_id= " + id, null);
-        //database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS + " WHERE "+ DbHelper.ID+ " = "+ id+";");
-        //database.execSQL("UPDATE " + DbHelper.TABLE_NAME_OF_CLASS + " SET " + DbHelper.ID + " = " + DbHelper.ID + " -1 " + " WHERE " + DbHelper.ID + " > " + id + ";");
-        //database.execSQL(" DELETE FROM "+ "sqlite_sequence"  + " WHERE "+ "name" +" = " + DbHelper.TABLE_NAME_OF_CLASS+";");
+//        database.rawQuery(" DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS+" INNER JOIN "+DbHelper.TABLE_NAME_OF_STUDENTS+" ON "+DbHelper.TABLE_NAME_OF_CLASS.);
+//        database.execSQL("SELECT ");
         return result;
     }
 
@@ -188,5 +185,6 @@ public class GetDataFromDB {
         }
         return dataMarks;
     }
+
 
 }

@@ -2,11 +2,10 @@ package com.example.databaseaplication.repositoty;
 
 import android.content.Context;
 
-import com.example.databaseaplication.Model.MarksModel;
-import com.example.databaseaplication.Model.StudentModel;
+import com.example.databaseaplication.model.MarksModel;
+import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.database.GetDataFromDB;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDetailRepository {

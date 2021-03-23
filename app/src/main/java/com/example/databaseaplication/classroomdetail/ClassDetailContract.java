@@ -1,7 +1,7 @@
-package com.example.databaseaplication.classdetail;
+package com.example.databaseaplication.classroomdetail;
 
-import com.example.databaseaplication.Model.ClassRoomModel;
-import com.example.databaseaplication.Model.StudentModel;
+import com.example.databaseaplication.model.ClassRoomModel;
+import com.example.databaseaplication.model.StudentModel;
 
 import java.util.List;
 

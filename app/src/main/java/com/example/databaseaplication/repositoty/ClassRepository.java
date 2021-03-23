@@ -1,9 +1,8 @@
 package com.example.databaseaplication.repositoty;
 
 import android.content.Context;
-import android.os.Handler;
 
-import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.database.GetDataFromDB;
 
 import java.util.List;

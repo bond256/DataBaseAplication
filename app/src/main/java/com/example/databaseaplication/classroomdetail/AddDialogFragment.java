@@ -1,4 +1,4 @@
-package com.example.databaseaplication.classdetail;
+package com.example.databaseaplication.classroomdetail;
 
 import android.os.Bundle;
 
@@ -12,9 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
-import com.example.databaseaplication.Model.ClassRoomModel;
-import com.example.databaseaplication.Model.StudentModel;
+import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.R;
 
 
@@ -63,7 +63,9 @@ public class AddDialogFragment extends Fragment {
             String name=firstName.getText().toString();
             String surname=secondName.getText().toString();
             String age=ageStudent.getText().toString();
-            addDialogListener.addCLick(new StudentModel(0,name,surname,Integer.valueOf(classId),gender,Integer.valueOf(age)));
+            if(!name.equals("")&&!surname.equals("")&&!age.equals("")) {
+                addDialogListener.addCLick(new StudentModel(0, name, surname, Integer.valueOf(classId), gender, Integer.valueOf(age)));
+            }else Toast.makeText(getActivity(),"Please input data",Toast.LENGTH_LONG).show();
         });
         return view;
     }

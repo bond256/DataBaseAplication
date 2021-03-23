@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.repositoty.ClassRepository;
 
 
@@ -13,8 +13,8 @@ public class ClassListPresenter implements ClassListContract.ClassListPresenter 
     private final ClassRepository classRepository;
     private final Handler handler;
 
-    public ClassListPresenter(ClassListContract.View view, Context context) {
-        this.view = view;
+    public ClassListPresenter(ClassListContract.View callback, Context context) {
+        this.view = callback;
         this.classRepository = new ClassRepository(context);
         handler = new Handler(Looper.getMainLooper());
     }

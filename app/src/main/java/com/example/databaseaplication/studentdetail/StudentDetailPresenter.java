@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.example.databaseaplication.Model.MarksModel;
+import com.example.databaseaplication.model.MarksModel;
 import com.example.databaseaplication.repositoty.StudentDetailRepository;
 
 public class StudentDetailPresenter implements StudentDetailContract.StudentDetailPresenter {

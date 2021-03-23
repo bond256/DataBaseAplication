@@ -1,4 +1,4 @@
-package com.example.databaseaplication.Adapters;
+package com.example.databaseaplication.adapters;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -10,20 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.R;
 
 import java.util.List;
 
-public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> {
-
-    private List<ClassRoomModel> classRoomsData;
-    //private ItemClickListener itemClickListener;
+public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHolder> {
+    private List<StudentModel> studentsData;
     private ItemMenuListener itemMenuListener;
 
 
-    public ClassAdapter(List<ClassRoomModel> classRoomsData) {
-        this.classRoomsData = classRoomsData;
+    public StudentsAdapter(List<StudentModel> studentModelsList) {
+        this.studentsData=studentModelsList;
         //this.itemClickListener=itemClickListener;
     }
 
@@ -34,33 +32,32 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_students_list, parent, false);
         return new ViewHolder(view,itemMenuListener);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nameClass.setText(classRoomsData.get(position).getName());
+        holder.nameStudent.setText(studentsData.get(position).getFirstName()+" "+studentsData.get(position).getSecondName());
     }
 
     @Override
     public int getItemCount() {
-        return classRoomsData.size();
+        return studentsData.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
-        private final TextView nameClass;
+        private final TextView nameStudent;
         private final ImageButton editButton;
         private final ImageButton deleteButton;
-        //private final ItemClickListener itemClickListener;
         private final ItemMenuListener itemMenuListener;
 
-        public ViewHolder(View view,ItemMenuListener itemMenuListener) {
+        public ViewHolder(View view, ItemMenuListener itemMenuListener) {
             super(view);
-            nameClass = view.findViewById(R.id.nameClassRoom);
-            editButton=view.findViewById(R.id.edit_class_room);
-            deleteButton=view.findViewById(R.id.delete_class_room);
-            //this.itemClickListener=itemClickListener;
+            nameStudent = view.findViewById(R.id.nameStudent);
+            editButton=view.findViewById(R.id.editStudent);
+            deleteButton=view.findViewById(R.id.deleteStudent);
             this.itemMenuListener=itemMenuListener;
             view.setOnClickListener(this);
             editButton.setOnClickListener(this);
@@ -73,9 +70,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ViewHolder> 
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.editStudent: itemMenuListener.onEditClick(getAdapterPosition());
-                break;
+                    break;
                 case R.id.deleteStudent: itemMenuListener.onDeleteClick(getAdapterPosition());
-                break;
+                    break;
                 case R.id.item_class: itemMenuListener.onItemClick(getAdapterPosition());
             }
         }

@@ -1,4 +1,4 @@
-package com.example.databaseaplication.Model;
+package com.example.databaseaplication.model;
 
 public class StudentModel {
     private Integer id;

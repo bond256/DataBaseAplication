@@ -1,10 +1,10 @@
-package com.example.databaseaplication.classdetail;
+package com.example.databaseaplication.classroomdetail;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.example.databaseaplication.Model.StudentModel;
+import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.repositoty.DetailRepository;
 
 public class ClassDetailPresenter implements ClassDetailContract.ClassDetailPresenter{

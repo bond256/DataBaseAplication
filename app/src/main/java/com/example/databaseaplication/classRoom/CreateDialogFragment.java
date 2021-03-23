@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.example.databaseaplication.Model.ClassRoomModel;
+import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.R;
 
 public class CreateDialogFragment extends Fragment {
@@ -61,16 +62,12 @@ public class CreateDialogFragment extends Fragment {
             String number = numberClass.getText().toString();
             String floor = floorClass.getText().toString();
             String type = typeClass.getText().toString();
-//            if(name.equals(" ")){
-//                Toast.makeText(getActivity(), "Please input data", Toast.LENGTH_SHORT).show();
-//            }else if()
-            fragmentDialogListener.onApply(new ClassRoomModel(0, name, type, Integer.valueOf(number), Integer.valueOf(floor)));
+            if (!name.equals("") && !number.equals("") && !floor.equals("") && !type.equals("")) {
+                fragmentDialogListener.onApply(new ClassRoomModel(0, name, type, Integer.valueOf(number), Integer.valueOf(floor)));
+            } else Toast.makeText(getActivity(), "Please input data", Toast.LENGTH_LONG).show();
         });
         return view;
     }
-
-
-    static
 
     public interface FragmentDialogListener {
         void onApply(ClassRoomModel classRoomModel);

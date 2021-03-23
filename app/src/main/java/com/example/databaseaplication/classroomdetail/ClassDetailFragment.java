@@ -1,10 +1,9 @@
-package com.example.databaseaplication.classdetail;
+package com.example.databaseaplication.classroomdetail;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,11 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.databaseaplication.Adapters.StudentsAdapter;
-import com.example.databaseaplication.Model.ClassRoomModel;
-import com.example.databaseaplication.Model.StudentModel;
+import com.example.databaseaplication.adapters.StudentsAdapter;
+import com.example.databaseaplication.model.ClassRoomModel;
+import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.R;
-import com.example.databaseaplication.classRoom.EditDialogFragment;
 import com.example.databaseaplication.studentdetail.StudentDetailFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -143,7 +141,6 @@ public class ClassDetailFragment extends Fragment implements ClassDetailContract
 
     @Override
     public void addCLick(StudentModel studentModel) {
-        Log.d("tag", "addCLick: "+studentModel.getSecondName()+" "+studentModel.getFirstName()+" "+studentModel.getGender()+" "+studentModel.getAge());
         classDetailPresenter.addStudent(studentModel);
         getParentFragmentManager().beginTransaction().remove(addDialogFragment).commit();
         addDialogFragment=null;

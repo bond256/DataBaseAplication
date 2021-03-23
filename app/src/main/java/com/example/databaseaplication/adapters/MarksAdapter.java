@@ -1,4 +1,4 @@
-package com.example.databaseaplication.Adapters;
+package com.example.databaseaplication.adapters;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -10,8 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.databaseaplication.Model.MarksModel;
-import com.example.databaseaplication.Model.StudentModel;
+import com.example.databaseaplication.model.MarksModel;
 import com.example.databaseaplication.R;
 
 import java.util.List;
