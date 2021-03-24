@@ -4,9 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.databaseaplication.classRoom.ListClassFragment;
+import com.example.databaseaplication.classRoom.ListClassRoomFragment;
 
-public class MainActivity extends AppCompatActivity implements MainInterfaceCallBack {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -14,22 +14,8 @@ public class MainActivity extends AppCompatActivity implements MainInterfaceCall
         setContentView(R.layout.activity_main);
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.main_fragment,new ListClassFragment(),null)
+                .add(R.id.main_fragment,new ListClassRoomFragment(),null)
                 .commit();
     }
 
-    @Override
-    public void openClassRoomFragment() {
-
-    }
-
-    @Override
-    public void openClassDetailsFragment() {
-
-    }
-
-    @Override
-    public void openStudentDetailsFragment() {
-
-    }
 }

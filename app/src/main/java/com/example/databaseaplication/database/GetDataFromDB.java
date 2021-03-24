@@ -54,10 +54,10 @@ public class GetDataFromDB {
 
 
     public int deleteClassRoom(int id) {
-        int result = database.delete(DbHelper.TABLE_NAME_OF_CLASS, "_id= " + id, null);
-//        database.rawQuery(" DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS+" INNER JOIN "+DbHelper.TABLE_NAME_OF_STUDENTS+" ON "+DbHelper.TABLE_NAME_OF_CLASS.);
+        //int result = database.delete(DbHelper.TABLE_NAME_OF_CLASS, "_id= " + id, null);
+        database.rawQuery(" DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS+" INNER JOIN "+DbHelper.TABLE_NAME_OF_STUDENTS+" ON "+DbHelper.TABLE_NAME_OF_CLASS+"."+DbHelper.ID+"="+DbHelper.TABLE_NAME_OF_STUDENTS+"."+DbHelper.CLASS_ID+" INNER JOIN "+DbHelper.TABLE_NAME_OF_MARKS+" ON "+DbHelper.TABLE_NAME_OF_STUDENTS+"."+DbHelper.ID+"="+DbHelper.TABLE_NAME_OF_MARKS+"."+DbHelper.STUDENT_ID + " WHERE "+ DbHelper.TABLE_NAME_OF_CLASS+"."+DbHelper.CLASS_ID+"="+id,null);
 //        database.execSQL("SELECT ");
-        return result;
+        return 1;
     }
 
     public int updateClassRoom(ClassRoomModel classRoomModel) {

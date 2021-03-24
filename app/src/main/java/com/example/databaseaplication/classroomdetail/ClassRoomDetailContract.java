@@ -5,7 +5,7 @@ import com.example.databaseaplication.model.StudentModel;
 
 import java.util.List;
 
-public interface ClassDetailContract {
+public interface ClassRoomDetailContract {
     interface View{
         void showDetails(ClassRoomModel classRoomModel);
         void showError();

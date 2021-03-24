@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.R;
 
-public class CreateDialogFragment extends Fragment {
+public class CreateClassRoomFragment extends Fragment {
     private EditText nameClass;
     private EditText numberClass;
     private EditText floorClass;
@@ -29,12 +29,12 @@ public class CreateDialogFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public CreateDialogFragment() {
+    public CreateClassRoomFragment() {
         // Required empty public constructor
     }
 
-    public static CreateDialogFragment newInstance(FragmentDialogListener fragmentListener) {
-        CreateDialogFragment fragment = new CreateDialogFragment();
+    public static CreateClassRoomFragment newInstance(FragmentDialogListener fragmentListener) {
+        CreateClassRoomFragment fragment = new CreateClassRoomFragment();
         fragment.fragmentDialogListener = fragmentListener;
         return fragment;
     }

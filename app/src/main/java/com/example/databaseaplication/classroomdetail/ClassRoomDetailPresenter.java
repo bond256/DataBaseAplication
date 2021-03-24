@@ -7,13 +7,13 @@ import android.os.Looper;
 import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.repositoty.DetailRepository;
 
-public class ClassDetailPresenter implements ClassDetailContract.ClassDetailPresenter{
-    private ClassDetailContract.View view;
+public class ClassRoomDetailPresenter implements ClassRoomDetailContract.ClassDetailPresenter{
+    private ClassRoomDetailContract.View view;
     private DetailRepository detailRepository;
     private Handler handler;
 
 
-    public ClassDetailPresenter(ClassDetailContract.View view, Context context) {
+    public ClassRoomDetailPresenter(ClassRoomDetailContract.View view, Context context) {
         this.view=view;
         this.detailRepository=new DetailRepository(context);
         this.handler=new Handler(Looper.getMainLooper());

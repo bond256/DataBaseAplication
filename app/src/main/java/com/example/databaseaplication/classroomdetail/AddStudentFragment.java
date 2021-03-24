@@ -18,7 +18,7 @@ import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.R;
 
 
-public class AddDialogFragment extends Fragment {
+public class AddStudentFragment extends Fragment {
     private AddDialogListener addDialogListener;
     private String classId;
     private Spinner spinner;
@@ -28,8 +28,8 @@ public class AddDialogFragment extends Fragment {
     private String gender;
     private Button createButton;
 
-    public static AddDialogFragment newInstance(AddDialogListener addDialogListener, String id) {
-        AddDialogFragment fragment = new AddDialogFragment();
+    public static AddStudentFragment newInstance(AddDialogListener addDialogListener, String id) {
+        AddStudentFragment fragment = new AddStudentFragment();
         fragment.addDialogListener=addDialogListener;
         fragment.classId=id;
         return fragment;

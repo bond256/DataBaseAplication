@@ -1,13 +1,11 @@
 package com.example.databaseaplication.classRoom;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,23 +14,23 @@ import com.example.databaseaplication.MainInterfaceCallBack;
 import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.R;
 import com.example.databaseaplication.adapters.ClassAdapter;
-import com.example.databaseaplication.classroomdetail.ClassDetailFragment;
+import com.example.databaseaplication.classroomdetail.ClassRoomDetailFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListClassFragment extends Fragment implements ClassListContract.View,
-        CreateDialogFragment.FragmentDialogListener,
+public class ListClassRoomFragment extends Fragment implements ClassRoomListContract.View,
+        CreateClassRoomFragment.FragmentDialogListener,
         ClassAdapter.ItemMenuListener,
-        EditDialogFragment.FragmentEditListener {
+        EditClassRoomFragment.FragmentEditListener {
 
     private RecyclerView classRecycler;
-    private ClassListPresenter classListPresenter;
+    private ClassRoomListPresenter classListPresenter;
     private ClassAdapter classAdapter;
     private ArrayList<ClassRoomModel> data;
-    private CreateDialogFragment createDialogFragment;
-    private EditDialogFragment editDialogFragment;
+    private CreateClassRoomFragment createDialogFragment;
+    private EditClassRoomFragment editDialogFragment;
     private MainInterfaceCallBack mainInterfaceCallBack;
 
     @Override
@@ -43,7 +41,7 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
         init(view);
         classListPresenter.loadClass();
         floatingActionButton.setOnClickListener(v -> {
-            createDialogFragment = CreateDialogFragment.newInstance(this);
+            createDialogFragment = CreateClassRoomFragment.newInstance(this);
             getParentFragmentManager().beginTransaction()
                     .addToBackStack(null)
                     .add(R.id.main_fragment, createDialogFragment, null)
@@ -52,16 +50,7 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
         return view;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof MainInterfaceCallBack) {
-            mainInterfaceCallBack = (MainInterfaceCallBack) context;
-        } else {
-            throw new ClassCastException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+
 
     private void init(View view) {
         classRecycler = view.findViewById(R.id.classRecycler);
@@ -71,7 +60,7 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
         classAdapter = new ClassAdapter(data);
         classAdapter.setOnItemMenuClickListener(this);
         classRecycler.setAdapter(classAdapter);
-        classListPresenter = new ClassListPresenter(this, getContext());
+        classListPresenter = new ClassRoomListPresenter(this, getContext());
     }
 
 
@@ -94,7 +83,7 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
 
     @Override
     public void onItemClick(int position) {
-        ClassDetailFragment classDetailFragment = new ClassDetailFragment();
+        ClassRoomDetailFragment classDetailFragment = new ClassRoomDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString("id", data.get(position).getId().toString());
         classDetailFragment.setArguments(bundle);
@@ -113,9 +102,9 @@ public class ListClassFragment extends Fragment implements ClassListContract.Vie
 
     @Override
     public void onEditClick(int position) {
-        editDialogFragment = EditDialogFragment.newInstance(this, data.get(position));
+        editDialogFragment = EditClassRoomFragment.newInstance(this, data.get(position));
         getParentFragmentManager().beginTransaction()
-                .add(R.id.main_fragment, editDialogFragment, null)
+                .replace(R.id.main_fragment, editDialogFragment, null)
                 .commit();
     }
 

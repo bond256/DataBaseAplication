@@ -16,7 +16,7 @@ import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.R;
 
 
-public class EditDialogFragment extends Fragment {
+public class EditClassRoomFragment extends Fragment {
     private EditText nameClass;
     private EditText numberClass;
     private EditText floorClass;
@@ -26,12 +26,12 @@ public class EditDialogFragment extends Fragment {
     private ClassRoomModel editData;
 
 
-    public EditDialogFragment() {
+    public EditClassRoomFragment() {
         // Required empty public constructor
     }
 
-    public static EditDialogFragment newInstance(FragmentEditListener fragmentDialogListener, ClassRoomModel classRoomModel) {
-        EditDialogFragment fragment = new EditDialogFragment();
+    public static EditClassRoomFragment newInstance(FragmentEditListener fragmentDialogListener, ClassRoomModel classRoomModel) {
+        EditClassRoomFragment fragment = new EditClassRoomFragment();
         fragment.fragmentEditListener = fragmentDialogListener;
         fragment.editData = classRoomModel;
         return fragment;

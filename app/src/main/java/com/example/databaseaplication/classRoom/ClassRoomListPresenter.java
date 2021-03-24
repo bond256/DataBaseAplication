@@ -8,12 +8,12 @@ import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.repositoty.ClassRepository;
 
 
-public class ClassListPresenter implements ClassListContract.ClassListPresenter {
-    private final ClassListContract.View view;
+public class ClassRoomListPresenter implements ClassRoomListContract.ClassListPresenter {
+    private final ClassRoomListContract.View view;
     private final ClassRepository classRepository;
     private final Handler handler;
 
-    public ClassListPresenter(ClassListContract.View callback, Context context) {
+    public ClassRoomListPresenter(ClassRoomListContract.View callback, Context context) {
         this.view = callback;
         this.classRepository = new ClassRepository(context);
         handler = new Handler(Looper.getMainLooper());

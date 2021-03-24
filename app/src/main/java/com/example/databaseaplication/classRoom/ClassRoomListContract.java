@@ -4,7 +4,7 @@ import com.example.databaseaplication.model.ClassRoomModel;
 
 import java.util.List;
 
-public interface ClassListContract {
+public interface ClassRoomListContract {
     interface View{
         void showList(List<ClassRoomModel> classRooms);
         void showError();

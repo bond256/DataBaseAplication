@@ -24,19 +24,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClassDetailFragment extends Fragment implements ClassDetailContract.View,
+public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetailContract.View,
         StudentsAdapter.ItemMenuListener,
-        AddDialogFragment.AddDialogListener,
+        AddStudentFragment.AddDialogListener,
         EditStudentFragment.OnEditStudentListener {
 
     private RecyclerView studentsRecycler;
     private TextView nameClass;
     private StudentsAdapter studentsAdapter;
     private List<StudentModel> studentDateList;
-    private AddDialogFragment addDialogFragment;
+    private AddStudentFragment addDialogFragment;
     private EditStudentFragment editStudentFragment;
     private String classId;
-    private ClassDetailPresenter classDetailPresenter;
+    private ClassRoomDetailPresenter classDetailPresenter;
     private TextView nameDetailClass;
     private TextView typeDetailClass;
     private TextView levelDetailClass;
@@ -49,7 +49,7 @@ public class ClassDetailFragment extends Fragment implements ClassDetailContract
         if (getArguments() != null) {
             classId = getArguments().getString("id");
         }
-        classDetailPresenter=new ClassDetailPresenter(this,getContext());
+        classDetailPresenter=new ClassRoomDetailPresenter(this,getContext());
     }
 
 
@@ -73,7 +73,7 @@ public class ClassDetailFragment extends Fragment implements ClassDetailContract
         classDetailPresenter.loadStudents(Integer.parseInt(classId));
         FloatingActionButton fabAddStudent=view.findViewById(R.id.fab_add_student);
         fabAddStudent.setOnClickListener(v -> {
-            addDialogFragment=AddDialogFragment.newInstance(this,classId);
+            addDialogFragment= AddStudentFragment.newInstance(this,classId);
             getParentFragmentManager()
                     .beginTransaction()
                     .addToBackStack(null)
