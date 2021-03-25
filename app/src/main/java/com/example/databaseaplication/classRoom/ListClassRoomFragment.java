@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,13 +34,21 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
     private CreateClassRoomFragment createDialogFragment;
     private EditClassRoomFragment editDialogFragment;
     private MainInterfaceCallBack mainInterfaceCallBack;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_class, container, false);
-        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);
-        init(view);
+        floatingActionButton = view.findViewById(R.id.floatingActionButton);
+        classRecycler = view.findViewById(R.id.classRecycler);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        init();
         classListPresenter.loadClass();
         floatingActionButton.setOnClickListener(v -> {
             createDialogFragment = CreateClassRoomFragment.newInstance(this);
@@ -47,13 +57,9 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
                     .add(R.id.main_fragment, createDialogFragment, null)
                     .commit();
         });
-        return view;
     }
 
-
-
-    private void init(View view) {
-        classRecycler = view.findViewById(R.id.classRecycler);
+    private void init() {
         data = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         classRecycler.setLayoutManager(layoutManager);
@@ -118,7 +124,7 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
     @Override
     public void onEdit(ClassRoomModel classRoomModel) {
         classListPresenter.editClassRoom(classRoomModel);
-        getParentFragmentManager().beginTransaction().remove(editDialogFragment).commit();
+        getParentFragmentManager().popBackStack();
         editDialogFragment = null;
     }
 

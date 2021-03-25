@@ -3,6 +3,8 @@ package com.example.databaseaplication.classRoom;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -52,6 +54,12 @@ public class EditClassRoomFragment extends Fragment {
         floorClass.setText(editData.getLevel().toString());
         typeClass.setText(editData.getTypeOfClass());
         editButton = view.findViewById(R.id.edit_class_room);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         editButton.setOnClickListener(v -> {
             String name = nameClass.getText().toString();
             String number = numberClass.getText().toString();
@@ -61,9 +69,7 @@ public class EditClassRoomFragment extends Fragment {
                 fragmentEditListener.onEdit(new ClassRoomModel(editData.getId(), name, type, Integer.valueOf(number), Integer.valueOf(floor)));
             } else Toast.makeText(getActivity(), "Please input data", Toast.LENGTH_LONG).show();
         });
-        return view;
     }
-
 
     public interface FragmentEditListener {
         void onEdit(ClassRoomModel classRoomModel);

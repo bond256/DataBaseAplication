@@ -3,6 +3,8 @@ package com.example.databaseaplication.studentdetail;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,6 +37,7 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
     private MarksAdapter marksAdapter;
     private List<MarksModel> marksData;
     private AddMarkFragment addMarkFragment;
+    private FloatingActionButton addButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,8 +51,19 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_student_detail, container, false);
-        init(view);
-        FloatingActionButton addButton = view.findViewById(R.id.fab_add_mark);
+        firstName = view.findViewById(R.id.firstNameDetail);
+        secondName = view.findViewById(R.id.secondNameDetail);
+        marksRecycler = view.findViewById(R.id.marksRecycler);
+        gender = view.findViewById(R.id.genderDetail);
+        age = view.findViewById(R.id.ageDetail);
+        addButton = view.findViewById(R.id.fab_add_mark);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        init();
         addButton.setOnClickListener(v -> {
             addMarkFragment = AddMarkFragment.newInstance(this, studentID);
             getParentFragmentManager()
@@ -60,15 +74,9 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
         });
         studentDetailPresenter.loadDetail(studentID);
         studentDetailPresenter.loadMarks(studentID);
-        return view;
     }
 
-    private void init(View view) {
-        firstName = view.findViewById(R.id.firstNameDetail);
-        secondName = view.findViewById(R.id.secondNameDetail);
-        marksRecycler = view.findViewById(R.id.marksRecycler);
-        gender = view.findViewById(R.id.genderDetail);
-        age = view.findViewById(R.id.ageDetail);
+    private void init() {
         marksData = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         marksRecycler.setLayoutManager(layoutManager);
@@ -116,7 +124,7 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
     @Override
     public void onAddMark(MarksModel marksModel) {
         studentDetailPresenter.addMark(marksModel);
-        getParentFragmentManager().beginTransaction().remove(addMarkFragment).commit();
+        getParentFragmentManager().popBackStack();
         addMarkFragment=null;
         studentDetailPresenter.loadMarks(studentID);
     }

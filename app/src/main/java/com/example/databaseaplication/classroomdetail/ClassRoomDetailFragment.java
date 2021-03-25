@@ -3,6 +3,8 @@ package com.example.databaseaplication.classroomdetail;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +43,7 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
     private TextView typeDetailClass;
     private TextView levelDetailClass;
     private TextView numberDetailClass;
+    private FloatingActionButton fabAddStudent;
 
 
     @Override
@@ -63,6 +66,14 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
         typeDetailClass=view.findViewById(R.id.typeDetailClass);
         levelDetailClass=view.findViewById(R.id.levelDetailClass);
         numberDetailClass=view.findViewById(R.id.numberDetailClass);
+        fabAddStudent=view.findViewById(R.id.fab_add_student);
+        return view;
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
         studentsRecycler.setLayoutManager(layoutManager);
         studentDateList=new ArrayList<>();
@@ -71,7 +82,6 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
         studentsRecycler.setAdapter(studentsAdapter);
         classDetailPresenter.loadDetails(Integer.parseInt(classId));
         classDetailPresenter.loadStudents(Integer.parseInt(classId));
-        FloatingActionButton fabAddStudent=view.findViewById(R.id.fab_add_student);
         fabAddStudent.setOnClickListener(v -> {
             addDialogFragment= AddStudentFragment.newInstance(this,classId);
             getParentFragmentManager()
@@ -80,9 +90,6 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
                     .add(R.id.main_fragment,addDialogFragment,null)
                     .commit();
         });
-
-
-        return view;
     }
 
     @SuppressLint("SetTextI18n")
@@ -142,7 +149,7 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
     @Override
     public void addCLick(StudentModel studentModel) {
         classDetailPresenter.addStudent(studentModel);
-        getParentFragmentManager().beginTransaction().remove(addDialogFragment).commit();
+        getParentFragmentManager().popBackStack();
         addDialogFragment=null;
         classDetailPresenter.loadStudents(Integer.parseInt(classId));
     }
@@ -150,6 +157,7 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
     @Override
     public void onEdit(StudentModel studentModel) {
         classDetailPresenter.editStudent(studentModel);
-        getParentFragmentManager().beginTransaction().remove(editStudentFragment).commit();
+        getParentFragmentManager().popBackStack();
+        editStudentFragment=null;
     }
 }

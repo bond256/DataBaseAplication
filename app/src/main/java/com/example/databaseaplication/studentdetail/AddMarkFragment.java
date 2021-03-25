@@ -2,6 +2,8 @@ package com.example.databaseaplication.studentdetail;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -51,17 +53,21 @@ public class AddMarkFragment extends Fragment {
         subjectMark=view.findViewById(R.id.subjectMark);
         addMark=view.findViewById(R.id.create_mark);
         date=view.findViewById(R.id.dateMark);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         addMark.setOnClickListener(v -> {
             String name=subjectName.getText().toString();
             String mark=subjectMark.getText().toString();
             String markDate=date.getText().toString();
             if(!name.equals("")&&!mark.equals("")){
-               onAddFragmentListener.onAddMark(new MarksModel(0,name,id,Integer.parseInt(mark),markDate));
+                onAddFragmentListener.onAddMark(new MarksModel(0,name,id,Integer.parseInt(mark),markDate));
             }
         });
-        return view;
     }
-
 
     public interface OnAddFragmentListener{
         void onAddMark(MarksModel marksModel);

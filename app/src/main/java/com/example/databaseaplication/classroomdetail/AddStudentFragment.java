@@ -2,6 +2,8 @@ package com.example.databaseaplication.classroomdetail;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -48,10 +50,16 @@ public class AddStudentFragment extends Fragment {
         secondName=view.findViewById(R.id.secondName);
         ageStudent=view.findViewById(R.id.age);
         createButton=view.findViewById(R.id.create_student);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               gender= getResources().getStringArray(R.array.gender)[position];
+                gender= getResources().getStringArray(R.array.gender)[position];
             }
 
             @Override
@@ -67,7 +75,7 @@ public class AddStudentFragment extends Fragment {
                 addDialogListener.addCLick(new StudentModel(0, name, surname, Integer.valueOf(classId), gender, Integer.valueOf(age)));
             }else Toast.makeText(getActivity(),"Please input data",Toast.LENGTH_LONG).show();
         });
-        return view;
+
     }
 
     interface AddDialogListener{

@@ -55,7 +55,12 @@ public class GetDataFromDB {
 
     public int deleteClassRoom(int id) {
         //int result = database.delete(DbHelper.TABLE_NAME_OF_CLASS, "_id= " + id, null);
-        database.rawQuery(" DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS+" INNER JOIN "+DbHelper.TABLE_NAME_OF_STUDENTS+" ON "+DbHelper.TABLE_NAME_OF_CLASS+"."+DbHelper.ID+"="+DbHelper.TABLE_NAME_OF_STUDENTS+"."+DbHelper.CLASS_ID+" INNER JOIN "+DbHelper.TABLE_NAME_OF_MARKS+" ON "+DbHelper.TABLE_NAME_OF_STUDENTS+"."+DbHelper.ID+"="+DbHelper.TABLE_NAME_OF_MARKS+"."+DbHelper.STUDENT_ID + " WHERE "+ DbHelper.TABLE_NAME_OF_CLASS+"."+DbHelper.CLASS_ID+"="+id,null);
+        //t= database.rawQuery("DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS+" WHERE "+ DbHelper.TABLE_NAME_OF_CLASS+"."+DbHelper.ID+"="+id,null);
+        database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS+" WHERE "+ DbHelper.TABLE_NAME_OF_CLASS+"."+DbHelper.ID+"="+id);
+        database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE " +DbHelper.STUDENT_ID+"="+"( SELECT "+DbHelper.ID+" FROM "+DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+ DbHelper.CLASS_ID+"="+id+")");
+        database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+DbHelper.CLASS_ID+"="+id);
+        //database.rawQuery("DELETE FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE " +DbHelper.STUDENT_ID+"="+"( SELECT "+DbHelper.ID+" FROM "+DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+ DbHelper.CLASS_ID+"="+id+")",null);
+        //database.rawQuery("DELETE FROM "+DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+DbHelper.CLASS_ID+"="+id,null);
 //        database.execSQL("SELECT ");
         return 1;
     }
@@ -122,7 +127,10 @@ public class GetDataFromDB {
     }
 
     public int deleteStudent(int id){
-        return database.delete(DbHelper.TABLE_NAME_OF_STUDENTS,DbHelper.ID+"="+id,null);
+        database.execSQL("DELETE FROM "+ DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+DbHelper.ID+"="+id);
+        database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE "+DbHelper.STUDENT_ID+"="+id);
+        //return database.delete(DbHelper.TABLE_NAME_OF_STUDENTS,DbHelper.ID+"="+id,null);
+        return 1;
     }
 
     public int editStudent(StudentModel studentModel){
