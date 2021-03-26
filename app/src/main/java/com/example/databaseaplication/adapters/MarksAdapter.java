@@ -21,18 +21,18 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.ViewHolder> 
 
 
     public MarksAdapter(List<MarksModel> marksModelsList) {
-        this.marksData=marksModelsList;
+        this.marksData = marksModelsList;
     }
 
-    public void setOnItemMenuClickListener(ItemMenuListener itemMenuClickListener){
-        this.itemMenuListener=itemMenuClickListener;
+    public void setOnItemMenuClickListener(ItemMenuListener itemMenuClickListener) {
+        this.itemMenuListener = itemMenuClickListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_marks_list, parent, false);
-        return new ViewHolder(view,itemMenuListener);
+        return new ViewHolder(view, itemMenuListener);
     }
 
     @SuppressLint("SetTextI18n")
@@ -48,7 +48,7 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.ViewHolder> 
         return marksData.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView nameSubject;
         private final TextView markSubject;
         private final TextView dateSubject;
@@ -59,12 +59,11 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.ViewHolder> 
         public ViewHolder(View view, ItemMenuListener itemMenuListener) {
             super(view);
             nameSubject = view.findViewById(R.id.nameSubject);
-            markSubject=view.findViewById(R.id.markSubject);
-            dateSubject=view.findViewById(R.id.dateSubject);
-            editButton=view.findViewById(R.id.editMark);
-            deleteButton=view.findViewById(R.id.deleteMark);
-            this.itemMenuListener=itemMenuListener;
-            view.setOnClickListener(this);
+            markSubject = view.findViewById(R.id.markSubject);
+            dateSubject = view.findViewById(R.id.dateSubject);
+            editButton = view.findViewById(R.id.editMark);
+            deleteButton = view.findViewById(R.id.deleteMark);
+            this.itemMenuListener = itemMenuListener;
             editButton.setOnClickListener(this);
             deleteButton.setOnClickListener(this);
         }
@@ -73,19 +72,21 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksAdapter.ViewHolder> 
         @SuppressLint("NonConstantResourceId")
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.editStudent: itemMenuListener.onEditClick(getAdapterPosition());
+            switch (v.getId()) {
+                case R.id.editMark:
+                    itemMenuListener.onEditClick(getAdapterPosition());
                     break;
-                case R.id.deleteStudent: itemMenuListener.onDeleteClick(getAdapterPosition());
+                case R.id.deleteMark:
+                    itemMenuListener.onDeleteClick(getAdapterPosition());
                     break;
             }
         }
     }
 
 
-
-    public interface ItemMenuListener{
+    public interface ItemMenuListener {
         void onEditClick(int position);
+
         void onDeleteClick(int position);
     }
 }

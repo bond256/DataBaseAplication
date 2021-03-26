@@ -27,4 +27,12 @@ public class StudentDetailRepository {
     public StudentModel getDetailStudent(int id){
         return getDataFromDB.getStudentDetail(id);
     }
+
+    public void deleteMark(int id){
+        getDataFromDB.deleteMark(id);
+    }
+
+    public void editMark(MarksModel marksModel){
+        getDataFromDB.updateMark(marksModel);
+    }
 }

@@ -16,5 +16,7 @@ public interface StudentDetailContract {
         void loadDetail(int id);
         void addMark(MarksModel marksModel);
         void loadMarks(int id);
+        void editMark(MarksModel marksModel);
+        void deleteMark(int id);
     }
 }

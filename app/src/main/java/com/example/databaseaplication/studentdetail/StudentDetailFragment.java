@@ -26,7 +26,8 @@ import java.util.List;
 
 public class StudentDetailFragment extends Fragment implements StudentDetailContract.View,
         MarksAdapter.ItemMenuListener,
-        AddMarkFragment.OnAddFragmentListener {
+        AddMarkFragment.OnAddFragmentListener,
+        EditMarkFragment.EditMarkFragmentListener {
     private Integer studentID;
     private StudentDetailPresenter studentDetailPresenter;
     private TextView firstName;
@@ -37,6 +38,7 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
     private MarksAdapter marksAdapter;
     private List<MarksModel> marksData;
     private AddMarkFragment addMarkFragment;
+    private EditMarkFragment editMarkFragment;
     private FloatingActionButton addButton;
 
     @Override
@@ -89,11 +91,10 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
     @SuppressLint("SetTextI18n")
     @Override
     public void showDetail(StudentModel studentModel) {
-        Log.d("tag", "showDetail: " + studentModel.getFirstName());
-        firstName.setText(studentModel.getFirstName());
-        secondName.setText(studentModel.getSecondName());
-        gender.setText(studentModel.getGender());
-        age.setText(studentModel.getId().toString());
+        firstName.setText("First name: " + studentModel.getFirstName());
+        secondName.setText("Second name: " + studentModel.getSecondName());
+        gender.setText("Gender: " + studentModel.getGender());
+        age.setText("Age: " + studentModel.getId().toString());
     }
 
     @Override
@@ -104,6 +105,8 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
     @Override
     public void showMarks(List<MarksModel> marksModel) {
         if (marksModel.isEmpty()) {
+            marksData.clear();
+            marksAdapter.notifyDataSetChanged();
             return;
         }
         marksData.clear();
@@ -113,19 +116,33 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
 
     @Override
     public void onEditClick(int position) {
-
+        editMarkFragment = EditMarkFragment.newInstance(this, marksData.get(position));
+        getParentFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
+                .add(R.id.main_fragment, editMarkFragment, null)
+                .commit();
     }
 
     @Override
     public void onDeleteClick(int position) {
-
+        studentDetailPresenter.deleteMark(marksData.get(position).getId());
+        studentDetailPresenter.loadMarks(studentID);
     }
 
     @Override
     public void onAddMark(MarksModel marksModel) {
         studentDetailPresenter.addMark(marksModel);
         getParentFragmentManager().popBackStack();
-        addMarkFragment=null;
+        addMarkFragment = null;
+        studentDetailPresenter.loadMarks(studentID);
+    }
+
+    @Override
+    public void onEditMark(MarksModel marksModel) {
+        studentDetailPresenter.editMark(marksModel);
+        getParentFragmentManager().popBackStack();
+        editMarkFragment = null;
         studentDetailPresenter.loadMarks(studentID);
     }
 }

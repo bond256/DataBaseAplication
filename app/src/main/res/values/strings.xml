@@ -17,6 +17,7 @@
     <string name="mark">Mark</string>
     <string name="add_mark">Add Mark</string>
     <string name="date">Date</string>
+    <string name="edit_mark">Edit Mark</string>
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>

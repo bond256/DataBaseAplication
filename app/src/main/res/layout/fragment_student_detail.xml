@@ -24,31 +24,40 @@
                 android:id="@+id/firstNameDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/secondNameDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/genderDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/ageDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Marks"
+                android:background="@drawable/border"
                 android:textAlignment="center"
                 android:textIsSelectable="false"
                 android:textSize="24sp" />

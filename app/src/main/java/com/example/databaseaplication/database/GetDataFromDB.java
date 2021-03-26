@@ -56,9 +56,9 @@ public class GetDataFromDB {
     public int deleteClassRoom(int id) {
         //int result = database.delete(DbHelper.TABLE_NAME_OF_CLASS, "_id= " + id, null);
         //t= database.rawQuery("DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS+" WHERE "+ DbHelper.TABLE_NAME_OF_CLASS+"."+DbHelper.ID+"="+id,null);
-        database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS+" WHERE "+ DbHelper.TABLE_NAME_OF_CLASS+"."+DbHelper.ID+"="+id);
-        database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE " +DbHelper.STUDENT_ID+"="+"( SELECT "+DbHelper.ID+" FROM "+DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+ DbHelper.CLASS_ID+"="+id+")");
-        database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+DbHelper.CLASS_ID+"="+id);
+        database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_CLASS + " WHERE " + DbHelper.TABLE_NAME_OF_CLASS + "." + DbHelper.ID + "=" + id);
+        database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_MARKS + " WHERE " + DbHelper.STUDENT_ID + "=" + "( SELECT " + DbHelper.ID + " FROM " + DbHelper.TABLE_NAME_OF_STUDENTS + " WHERE " + DbHelper.CLASS_ID + "=" + id + ")");
+        database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_STUDENTS + " WHERE " + DbHelper.CLASS_ID + "=" + id);
         //database.rawQuery("DELETE FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE " +DbHelper.STUDENT_ID+"="+"( SELECT "+DbHelper.ID+" FROM "+DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+ DbHelper.CLASS_ID+"="+id+")",null);
         //database.rawQuery("DELETE FROM "+DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+DbHelper.CLASS_ID+"="+id,null);
 //        database.execSQL("SELECT ");
@@ -126,25 +126,25 @@ public class GetDataFromDB {
         return dataStudents;
     }
 
-    public int deleteStudent(int id){
-        database.execSQL("DELETE FROM "+ DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+DbHelper.ID+"="+id);
-        database.execSQL("DELETE FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE "+DbHelper.STUDENT_ID+"="+id);
+    public int deleteStudent(int id) {
+        database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_STUDENTS + " WHERE " + DbHelper.ID + "=" + id);
+        database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_MARKS + " WHERE " + DbHelper.STUDENT_ID + "=" + id);
         //return database.delete(DbHelper.TABLE_NAME_OF_STUDENTS,DbHelper.ID+"="+id,null);
         return 1;
     }
 
-    public int editStudent(StudentModel studentModel){
-        int id=studentModel.getId();
+    public int editStudent(StudentModel studentModel) {
+        int id = studentModel.getId();
         ContentValues contentValues = new ContentValues();
         contentValues.put(DbHelper.FIRST_NAME, studentModel.getFirstName());
         contentValues.put(DbHelper.SECOND_NAME, studentModel.getSecondName());
         contentValues.put(DbHelper.CLASS_ID, studentModel.getClassId());
         contentValues.put(DbHelper.GENDER, studentModel.getGender());
         contentValues.put(DbHelper.AGE, studentModel.getAge());
-        return database.update(DbHelper.TABLE_NAME_OF_STUDENTS,contentValues,DbHelper.ID+"="+id,null);
+        return database.update(DbHelper.TABLE_NAME_OF_STUDENTS, contentValues, DbHelper.ID + "=" + id, null);
     }
 
-    public void addMarks(MarksModel marksModel){
+    public void addMarks(MarksModel marksModel) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DbHelper.SUBJECT_NAME, marksModel.getSubjectName());
         contentValues.put(DbHelper.STUDENT_ID, marksModel.getStudentId());
@@ -153,25 +153,25 @@ public class GetDataFromDB {
         database.insert(DbHelper.TABLE_NAME_OF_MARKS, null, contentValues);
     }
 
-    public StudentModel getStudentDetail(int id){
+    public StudentModel getStudentDetail(int id) {
         Cursor cursor = database.query(DbHelper.TABLE_NAME_OF_STUDENTS, null, DbHelper.ID + "=" + id, null, null, null, null);
         cursor.moveToFirst();
-            int idIndex = cursor.getColumnIndex(DbHelper.ID);
-            int name = cursor.getColumnIndex(DbHelper.FIRST_NAME);
-            int second = cursor.getColumnIndex(DbHelper.SECOND_NAME);
-            int gender = cursor.getColumnIndex(DbHelper.GENDER);
-            int age = cursor.getColumnIndex(DbHelper.AGE);
-            int idClass = cursor.getColumnIndex(DbHelper.CLASS_ID);
-                Integer idStudent = cursor.getInt(idIndex);
-                String firstName = cursor.getString(name);
-                String secondName = cursor.getString(second);
-                String genderStudent = cursor.getString(gender);
-                Integer ageStudent = cursor.getInt(age);
-                Integer classId = cursor.getInt(idClass);
+        int idIndex = cursor.getColumnIndex(DbHelper.ID);
+        int name = cursor.getColumnIndex(DbHelper.FIRST_NAME);
+        int second = cursor.getColumnIndex(DbHelper.SECOND_NAME);
+        int gender = cursor.getColumnIndex(DbHelper.GENDER);
+        int age = cursor.getColumnIndex(DbHelper.AGE);
+        int idClass = cursor.getColumnIndex(DbHelper.CLASS_ID);
+        Integer idStudent = cursor.getInt(idIndex);
+        String firstName = cursor.getString(name);
+        String secondName = cursor.getString(second);
+        String genderStudent = cursor.getString(gender);
+        Integer ageStudent = cursor.getInt(age);
+        Integer classId = cursor.getInt(idClass);
         return new StudentModel(idStudent, firstName, secondName, classId, genderStudent, ageStudent);
     }
 
-    public List<MarksModel> getMarks(int id){
+    public List<MarksModel> getMarks(int id) {
         Cursor cursor = database.query(DbHelper.TABLE_NAME_OF_MARKS, null, DbHelper.STUDENT_ID + "=" + id, null, null, null, null);
         ArrayList<MarksModel> dataMarks = new ArrayList<>();
 
@@ -188,10 +188,24 @@ public class GetDataFromDB {
                 Integer subjectMark = cursor.getInt(mark);
                 String dateMark = cursor.getString(date);
                 Integer idStudent = cursor.getInt(studentId);
-                dataMarks.add(new MarksModel(idMark,subjectName,idStudent,subjectMark,dateMark));
+                dataMarks.add(new MarksModel(idMark, subjectName, idStudent, subjectMark, dateMark));
             } while (cursor.moveToNext());
         }
         return dataMarks;
+    }
+
+    public void deleteMark(int id) {
+        database.delete(DbHelper.TABLE_NAME_OF_MARKS, DbHelper.ID + "=" + id, null);
+    }
+
+    public void updateMark(MarksModel marksModel) {
+        ContentValues contentValues = new ContentValues();
+        Integer id = marksModel.getId();
+        contentValues.put(DbHelper.SUBJECT_NAME, marksModel.getSubjectName());
+        contentValues.put(DbHelper.STUDENT_ID, marksModel.getStudentId());
+        contentValues.put(DbHelper.MARK, marksModel.getMark());
+        contentValues.put(DbHelper.DATA_MARK, marksModel.getDataMark());
+        database.update(DbHelper.TABLE_NAME_OF_MARKS, contentValues, DbHelper.ID + "=" + id, null);
     }
 
 

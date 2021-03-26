@@ -8,9 +8,9 @@ import com.example.databaseaplication.model.MarksModel;
 import com.example.databaseaplication.repositoty.StudentDetailRepository;
 
 public class StudentDetailPresenter implements StudentDetailContract.StudentDetailPresenter {
-    private StudentDetailContract.View view;
-    private StudentDetailRepository studentDetailRepository;
-    private Handler handler;
+    private final StudentDetailContract.View view;
+    private final StudentDetailRepository studentDetailRepository;
+    private final Handler handler;
 
 
     public StudentDetailPresenter(StudentDetailContract.View view, Context context) {
@@ -21,16 +21,36 @@ public class StudentDetailPresenter implements StudentDetailContract.StudentDeta
 
     @Override
     public void loadDetail(int id) {
-        view.showDetail(studentDetailRepository.getDetailStudent(id));
+        new Thread(() -> handler.post(() -> {
+            view.showDetail(studentDetailRepository.getDetailStudent(id));
+        })).start();
     }
 
     @Override
     public void addMark(MarksModel marksModel) {
-        studentDetailRepository.addMarks(marksModel);
+        new Thread(() -> handler.post(() -> {
+            studentDetailRepository.addMarks(marksModel);
+        })).start();
     }
 
     @Override
     public void loadMarks(int id) {
-        view.showMarks(studentDetailRepository.getMarks(id));
+        new Thread(() -> handler.post(() -> {
+            view.showMarks(studentDetailRepository.getMarks(id));
+        })).start();
+    }
+
+    @Override
+    public void editMark(MarksModel marksModel) {
+        new Thread(() -> handler.post(() -> {
+            studentDetailRepository.editMark(marksModel);
+        })).start();
+    }
+
+    @Override
+    public void deleteMark(int id) {
+        new Thread(() -> handler.post(() -> {
+            studentDetailRepository.deleteMark(id);
+        })).start();
     }
 }
