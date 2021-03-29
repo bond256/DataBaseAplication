@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.databaseaplication.MainInterfaceCallBack;
+import com.example.databaseaplication.filters.FiltersFragment;
 import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.R;
 import com.example.databaseaplication.adapters.ClassAdapter;
@@ -116,9 +117,14 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
 
     @Override
     public void onDeleteClick(int position) {
-        classListPresenter.deleteClassRoom(data.get(position).getId());
-        data.remove(position);
-        classAdapter.notifyItemRemoved(position);
+//        classListPresenter.deleteClassRoom(data.get(position).getId());
+//        data.remove(position);
+//        classAdapter.notifyItemRemoved(position);
+        FiltersFragment filtersFragment=new FiltersFragment();
+        getParentFragmentManager().beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.main_fragment,filtersFragment,null)
+                .commit();
     }
 
     @Override
