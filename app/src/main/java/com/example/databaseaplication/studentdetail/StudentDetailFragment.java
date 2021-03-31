@@ -4,6 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,22 +22,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import com.example.databaseaplication.R;
 import com.example.databaseaplication.adapters.MarksAdapter;
 import com.example.databaseaplication.filters.MarksFilterDialogFragment;
 import com.example.databaseaplication.model.MarksModel;
 import com.example.databaseaplication.model.StudentModel;
-import com.example.databaseaplication.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -74,7 +71,7 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
         age = view.findViewById(R.id.ageDetail);
         addButton = view.findViewById(R.id.fab_add_mark);
         Toolbar myToolbar = view.findViewById(R.id.studentDetailToolBar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(myToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
         return view;
     }
 
@@ -102,21 +99,22 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
         marksAdapter.setOnItemMenuClickListener(this);
         marksRecycler.setAdapter(marksAdapter);
         studentDetailPresenter = new StudentDetailPresenter(this, getContext());
+
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_class_room,menu);
-        SearchManager searchManager= (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView= (SearchView) menu.findItem(R.id.action_search).getActionView();
+        inflater.inflate(R.menu.menu_class_room, menu);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //searchView.clearFocus();
                 studentDetailPresenter.loadSubject("math");
-                Log.d("tag", "onQueryTextChange: "+query);
+                Log.d("tag", "onQueryTextChange: " + query);
                 //searchView.onActionViewCollapsed();
 
                 return true;
@@ -129,10 +127,11 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
             }
         });
 
-        Button button= (Button) menu.findItem(R.id.action_filter).getActionView();
-        button.setOnClickListener(v->{
-            MarksFilterDialogFragment marksFilterDialogFragment=new MarksFilterDialogFragment();
-            marksFilterDialogFragment.show(getParentFragmentManager(),null);
+        Button button = (Button) menu.findItem(R.id.action_filter).getActionView();
+        button.setOnClickListener(v -> {
+            MarksFilterDialogFragment marksFilterDialogFragment = new MarksFilterDialogFragment();
+            marksFilterDialogFragment.setMarkDialogListener(this);
+            marksFilterDialogFragment.show(getParentFragmentManager(), null);
         });
     }
 
@@ -197,7 +196,6 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
 
     @Override
     public void onMark(String mark) {
-
-
+        studentDetailPresenter.loadMarks(Integer.parseInt(mark));
     }
 }

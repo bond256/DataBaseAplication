@@ -1,9 +1,6 @@
 package com.example.databaseaplication.classRoom;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.databaseaplication.model.ClassRoomModel;
+import androidx.fragment.app.Fragment;
+
 import com.example.databaseaplication.R;
+import com.example.databaseaplication.model.ClassRoomModel;
 
 public class CreateClassRoomFragment extends Fragment {
     private EditText nameClass;

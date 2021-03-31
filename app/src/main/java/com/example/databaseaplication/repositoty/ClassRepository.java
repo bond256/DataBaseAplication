@@ -2,8 +2,8 @@ package com.example.databaseaplication.repositoty;
 
 import android.content.Context;
 
-import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.database.GetDataFromDB;
+import com.example.databaseaplication.model.ClassRoomModel;
 
 import java.util.List;
 
@@ -12,22 +12,22 @@ public class ClassRepository {
 
 
     public ClassRepository(Context context) {
-        this.classData=new GetDataFromDB(context);
+        this.classData = new GetDataFromDB(context);
     }
 
-    public List<ClassRoomModel> getClassRooms(){
+    public List<ClassRoomModel> getClassRooms() {
         return classData.getAllClassRooms();
     }
 
-    public long addClassRoom(ClassRoomModel classRoomModel){
+    public long addClassRoom(ClassRoomModel classRoomModel) {
         return classData.addClassRoom(classRoomModel);
     }
 
-    public int deleteClassRoom(int id){
+    public int deleteClassRoom(int id) {
         return classData.deleteClassRoom(id);
     }
 
-    public int editClassRoom(ClassRoomModel classRoomModel){
+    public int editClassRoom(ClassRoomModel classRoomModel) {
         return classData.updateClassRoom(classRoomModel);
     }
 }

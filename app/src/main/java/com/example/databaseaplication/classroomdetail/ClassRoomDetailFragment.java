@@ -2,6 +2,11 @@ package com.example.databaseaplication.classroomdetail;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,16 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
+import com.example.databaseaplication.R;
 import com.example.databaseaplication.adapters.StudentsAdapter;
 import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.model.StudentModel;
-import com.example.databaseaplication.R;
 import com.example.databaseaplication.studentdetail.StudentDetailFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -52,21 +51,20 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
         if (getArguments() != null) {
             classId = getArguments().getString("id");
         }
-        classDetailPresenter=new ClassRoomDetailPresenter(this,getContext());
+        classDetailPresenter = new ClassRoomDetailPresenter(this, getContext());
     }
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_class_detail, container, false);
-        studentsRecycler=view.findViewById(R.id.studentsRecycler);
-        nameDetailClass=view.findViewById(R.id.nameDetailClass);
-        typeDetailClass=view.findViewById(R.id.typeDetailClass);
-        levelDetailClass=view.findViewById(R.id.levelDetailClass);
-        numberDetailClass=view.findViewById(R.id.numberDetailClass);
-        fabAddStudent=view.findViewById(R.id.fab_add_student);
+        View view = inflater.inflate(R.layout.fragment_class_detail, container, false);
+        studentsRecycler = view.findViewById(R.id.studentsRecycler);
+        nameDetailClass = view.findViewById(R.id.nameDetailClass);
+        typeDetailClass = view.findViewById(R.id.typeDetailClass);
+        levelDetailClass = view.findViewById(R.id.levelDetailClass);
+        numberDetailClass = view.findViewById(R.id.numberDetailClass);
+        fabAddStudent = view.findViewById(R.id.fab_add_student);
         return view;
     }
 
@@ -74,20 +72,20 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         studentsRecycler.setLayoutManager(layoutManager);
-        studentDateList=new ArrayList<>();
-        studentsAdapter=new StudentsAdapter(studentDateList);
+        studentDateList = new ArrayList<>();
+        studentsAdapter = new StudentsAdapter(studentDateList);
         studentsAdapter.setOnItemMenuClickListener(this);
         studentsRecycler.setAdapter(studentsAdapter);
         classDetailPresenter.loadDetails(Integer.parseInt(classId));
         classDetailPresenter.loadStudents(Integer.parseInt(classId));
         fabAddStudent.setOnClickListener(v -> {
-            addDialogFragment= AddStudentFragment.newInstance(this,classId);
+            addDialogFragment = AddStudentFragment.newInstance(this, classId);
             getParentFragmentManager()
                     .beginTransaction()
                     .addToBackStack(null)
-                    .add(R.id.main_fragment,addDialogFragment,null)
+                    .add(R.id.main_fragment, addDialogFragment, null)
                     .commit();
         });
     }
@@ -95,11 +93,11 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
     @SuppressLint("SetTextI18n")
     @Override
     public void showDetails(ClassRoomModel classRoomModel) {
-        Log.d("tag", "showDetails: "+classRoomModel.getName()+"/"+classRoomModel.getId());
+        Log.d("tag", "showDetails: " + classRoomModel.getName() + "/" + classRoomModel.getId());
         nameDetailClass.setText(classRoomModel.getName());
-        typeDetailClass.setText("Type: "+classRoomModel.getTypeOfClass());
-        levelDetailClass.setText("Level: "+classRoomModel.getLevel());
-        numberDetailClass.setText("Number: "+classRoomModel.getNumberRoom());
+        typeDetailClass.setText("Type: " + classRoomModel.getTypeOfClass());
+        levelDetailClass.setText("Level: " + classRoomModel.getLevel());
+        numberDetailClass.setText("Number: " + classRoomModel.getNumberRoom());
     }
 
     @Override
@@ -109,7 +107,7 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
 
     @Override
     public void showStudent(List<StudentModel> studentModel) {
-        if(studentModel.isEmpty()){
+        if (studentModel.isEmpty()) {
             return;
         }
         studentDateList.clear();
@@ -119,11 +117,11 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
 
     @Override
     public void onEditClick(int position) {
-        editStudentFragment=EditStudentFragment.newInstance(this,studentDateList.get(position));
+        editStudentFragment = EditStudentFragment.newInstance(this, studentDateList.get(position));
         getParentFragmentManager()
                 .beginTransaction()
                 .addToBackStack("null")
-                .add(R.id.main_fragment,editStudentFragment,null)
+                .add(R.id.main_fragment, editStudentFragment, null)
                 .commit();
     }
 
@@ -135,14 +133,14 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
 
     @Override
     public void onItemClick(int position) {
-        StudentDetailFragment studentDetailFragment=new StudentDetailFragment();
-        Bundle bundle=new Bundle();
-        bundle.putInt("id",studentDateList.get(position).getId());
+        StudentDetailFragment studentDetailFragment = new StudentDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", studentDateList.get(position).getId());
         studentDetailFragment.setArguments(bundle);
         getParentFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
-                .add(R.id.main_fragment,studentDetailFragment,null)
+                .add(R.id.main_fragment, studentDetailFragment, null)
                 .commit();
     }
 
@@ -150,7 +148,7 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
     public void addCLick(StudentModel studentModel) {
         classDetailPresenter.addStudent(studentModel);
         getParentFragmentManager().popBackStack();
-        addDialogFragment=null;
+        addDialogFragment = null;
         classDetailPresenter.loadStudents(Integer.parseInt(classId));
     }
 
@@ -158,6 +156,6 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
     public void onEdit(StudentModel studentModel) {
         classDetailPresenter.editStudent(studentModel);
         getParentFragmentManager().popBackStack();
-        editStudentFragment=null;
+        editStudentFragment = null;
     }
 }

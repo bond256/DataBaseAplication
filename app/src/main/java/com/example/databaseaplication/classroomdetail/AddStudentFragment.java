@@ -1,11 +1,6 @@
 package com.example.databaseaplication.classroomdetail;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +11,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.databaseaplication.model.StudentModel;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.databaseaplication.R;
+import com.example.databaseaplication.model.StudentModel;
 
 
 public class AddStudentFragment extends Fragment {
@@ -32,8 +31,8 @@ public class AddStudentFragment extends Fragment {
 
     public static AddStudentFragment newInstance(AddDialogListener addDialogListener, String id) {
         AddStudentFragment fragment = new AddStudentFragment();
-        fragment.addDialogListener=addDialogListener;
-        fragment.classId=id;
+        fragment.addDialogListener = addDialogListener;
+        fragment.classId = id;
         return fragment;
     }
 
@@ -41,15 +40,15 @@ public class AddStudentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_add_dialog, container, false);
-        spinner=view.findViewById(R.id.spinnerGender);
-        ArrayAdapter<?> arrayAdapter=ArrayAdapter.createFromResource(getActivity(),R.array.gender, android.R.layout.simple_spinner_item);
+        View view = inflater.inflate(R.layout.fragment_add_dialog, container, false);
+        spinner = view.findViewById(R.id.spinnerGender);
+        ArrayAdapter<?> arrayAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.gender, android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
-        firstName=view.findViewById(R.id.firstName);
-        secondName=view.findViewById(R.id.secondName);
-        ageStudent=view.findViewById(R.id.age);
-        createButton=view.findViewById(R.id.create_student);
+        firstName = view.findViewById(R.id.firstName);
+        secondName = view.findViewById(R.id.secondName);
+        ageStudent = view.findViewById(R.id.age);
+        createButton = view.findViewById(R.id.create_student);
         return view;
     }
 
@@ -59,7 +58,7 @@ public class AddStudentFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                gender= getResources().getStringArray(R.array.gender)[position];
+                gender = getResources().getStringArray(R.array.gender)[position];
             }
 
             @Override
@@ -67,18 +66,18 @@ public class AddStudentFragment extends Fragment {
 
             }
         });
-        createButton.setOnClickListener(v->{
-            String name=firstName.getText().toString();
-            String surname=secondName.getText().toString();
-            String age=ageStudent.getText().toString();
-            if(!name.equals("")&&!surname.equals("")&&!age.equals("")) {
+        createButton.setOnClickListener(v -> {
+            String name = firstName.getText().toString();
+            String surname = secondName.getText().toString();
+            String age = ageStudent.getText().toString();
+            if (!name.equals("") && !surname.equals("") && !age.equals("")) {
                 addDialogListener.addCLick(new StudentModel(0, name, surname, Integer.valueOf(classId), gender, Integer.valueOf(age)));
-            }else Toast.makeText(getActivity(),"Please input data",Toast.LENGTH_LONG).show();
+            } else Toast.makeText(getActivity(), "Please input data", Toast.LENGTH_LONG).show();
         });
 
     }
 
-    interface AddDialogListener{
+    interface AddDialogListener {
         void addCLick(StudentModel studentModel);
     }
 }

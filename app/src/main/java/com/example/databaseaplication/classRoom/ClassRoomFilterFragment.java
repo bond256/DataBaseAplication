@@ -1,14 +1,13 @@
 package com.example.databaseaplication.classRoom;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.databaseaplication.R;
 
@@ -51,7 +50,7 @@ public class ClassRoomFilterFragment extends Fragment {
 
     }
 
-    public interface ClassRoomFilterListener{
+    public interface ClassRoomFilterListener {
         void onAlly();
     }
 }

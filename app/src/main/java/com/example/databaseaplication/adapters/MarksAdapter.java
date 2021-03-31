@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.databaseaplication.model.MarksModel;
 import com.example.databaseaplication.R;
+import com.example.databaseaplication.model.MarksModel;
 
 import java.util.List;
 

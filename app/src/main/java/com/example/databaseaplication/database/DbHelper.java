@@ -3,10 +3,8 @@ package com.example.databaseaplication.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 public class DbHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME_OF_CLASS = "classroom";
@@ -29,7 +27,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     public DbHelper(@Nullable Context context) {
-        super(context, "classroom", null, 2);
+        super(context, "classroom", null, 3);
     }
 
 

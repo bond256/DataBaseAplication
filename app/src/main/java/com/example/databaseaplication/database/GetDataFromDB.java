@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteProgram;
 
 import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.model.MarksModel;
@@ -207,11 +206,11 @@ public class GetDataFromDB {
 
 
     @SuppressLint("Recycle")
-    public List<MarksModel> getSubjectByName(String name){
-        String sds="dfds";
-        //Cursor cursor= database.rawQuery("SELECT * FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE "+DbHelper.SUBJECT_NAME+" = "+name,null);
-        Cursor cursor=database.query(DbHelper.TABLE_NAME_OF_MARKS,null,DbHelper.SUBJECT_NAME+"="+"math",null,null,null,null);
-        ArrayList<MarksModel> dataMarks=new ArrayList<>();
+    public List<MarksModel> getSubjectByName(String name) {
+        String sds = "dfds";
+        Cursor cursor= database.rawQuery("SELECT * FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE "+DbHelper.SUBJECT_NAME + " = ?", new String[]{"math"});
+//        Cursor cursor = database.query(DbHelper.TABLE_NAME_OF_MARKS, null, DbHelper.SUBJECT_NAME + "=" + "math", null, null, null, null);
+        ArrayList<MarksModel> dataMarks = new ArrayList<>();
         if (cursor.moveToFirst()) {
 
             int idIndex = cursor.getColumnIndex(DbHelper.ID);
@@ -233,9 +232,9 @@ public class GetDataFromDB {
     }
 
     @SuppressLint("Recycle")
-    public List<MarksModel> getSubjectByMark(int mark){
-        Cursor cursor= database.rawQuery("SELECT * FROM "+DbHelper.TABLE_NAME_OF_MARKS+ " WHERE "+DbHelper.MARK+"="+mark,null);
-        ArrayList<MarksModel> dataMarks=new ArrayList<>();
+    public List<MarksModel> getSubjectByMark(int mark) {
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DbHelper.TABLE_NAME_OF_MARKS + " WHERE " + DbHelper.MARK + "=" + mark, null);
+        ArrayList<MarksModel> dataMarks = new ArrayList<>();
         if (cursor.moveToFirst()) {
 
             int idIndex = cursor.getColumnIndex(DbHelper.ID);
@@ -254,8 +253,6 @@ public class GetDataFromDB {
         }
         return dataMarks;
     }
-
-
 
 
 }

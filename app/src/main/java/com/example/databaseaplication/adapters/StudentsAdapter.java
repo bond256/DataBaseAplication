@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.R;
+import com.example.databaseaplication.model.StudentModel;
 
 import java.util.List;
 
@@ -21,25 +21,25 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHo
 
 
     public StudentsAdapter(List<StudentModel> studentModelsList) {
-        this.studentsData=studentModelsList;
+        this.studentsData = studentModelsList;
         //this.itemClickListener=itemClickListener;
     }
 
-    public void setOnItemMenuClickListener(ItemMenuListener itemMenuClickListener){
-        this.itemMenuListener=itemMenuClickListener;
+    public void setOnItemMenuClickListener(ItemMenuListener itemMenuClickListener) {
+        this.itemMenuListener = itemMenuClickListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_students_list, parent, false);
-        return new ViewHolder(view,itemMenuListener);
+        return new ViewHolder(view, itemMenuListener);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.nameStudent.setText(studentsData.get(position).getFirstName()+" "+studentsData.get(position).getSecondName());
+        holder.nameStudent.setText(studentsData.get(position).getFirstName() + " " + studentsData.get(position).getSecondName());
     }
 
     @Override
@@ -47,7 +47,7 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHo
         return studentsData.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView nameStudent;
         private final ImageButton editButton;
         private final ImageButton deleteButton;
@@ -56,9 +56,9 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHo
         public ViewHolder(View view, ItemMenuListener itemMenuListener) {
             super(view);
             nameStudent = view.findViewById(R.id.nameStudent);
-            editButton=view.findViewById(R.id.editStudent);
-            deleteButton=view.findViewById(R.id.deleteStudent);
-            this.itemMenuListener=itemMenuListener;
+            editButton = view.findViewById(R.id.editStudent);
+            deleteButton = view.findViewById(R.id.deleteStudent);
+            this.itemMenuListener = itemMenuListener;
             view.setOnClickListener(this);
             editButton.setOnClickListener(this);
             deleteButton.setOnClickListener(this);
@@ -68,24 +68,29 @@ public class StudentsAdapter extends RecyclerView.Adapter<StudentsAdapter.ViewHo
         @SuppressLint("NonConstantResourceId")
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.editStudent: itemMenuListener.onEditClick(getAdapterPosition());
+            switch (v.getId()) {
+                case R.id.editStudent:
+                    itemMenuListener.onEditClick(getAdapterPosition());
                     break;
-                case R.id.deleteStudent: itemMenuListener.onDeleteClick(getAdapterPosition());
+                case R.id.deleteStudent:
+                    itemMenuListener.onDeleteClick(getAdapterPosition());
                     break;
-                case R.id.item_class: itemMenuListener.onItemClick(getAdapterPosition());
+                case R.id.item_class:
+                    itemMenuListener.onItemClick(getAdapterPosition());
             }
         }
     }
 
-    public interface ItemClickListener{
+    public interface ItemClickListener {
         void onItemClick(int position);
     }
 
 
-    public interface ItemMenuListener{
+    public interface ItemMenuListener {
         void onEditClick(int position);
+
         void onDeleteClick(int position);
+
         void onItemClick(int position);
     }
 

@@ -8,8 +8,6 @@
     tools:context=".classRoom.ListClassRoomFragment">
 
 
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/classRecycler"
         android:layout_width="match_parent"

@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.databaseaplication.MainInterfaceCallBack;
-import com.example.databaseaplication.filters.MarksFilterDialogFragment;
-import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.R;
 import com.example.databaseaplication.adapters.ClassAdapter;
 import com.example.databaseaplication.classroomdetail.ClassRoomDetailFragment;
+import com.example.databaseaplication.filters.MarksFilterDialogFragment;
+import com.example.databaseaplication.model.ClassRoomModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -120,10 +120,10 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
 //        classListPresenter.deleteClassRoom(data.get(position).getId());
 //        data.remove(position);
 //        classAdapter.notifyItemRemoved(position);
-        MarksFilterDialogFragment filtersFragment=new MarksFilterDialogFragment();
+        MarksFilterDialogFragment filtersFragment = new MarksFilterDialogFragment();
         getParentFragmentManager().beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.main_fragment,filtersFragment,null)
+                .replace(R.id.main_fragment, filtersFragment, null)
                 .commit();
     }
 

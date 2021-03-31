@@ -2,11 +2,6 @@ package com.example.databaseaplication.classroomdetail;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +12,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.databaseaplication.model.StudentModel;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.databaseaplication.R;
+import com.example.databaseaplication.model.StudentModel;
 
 
 public class EditStudentFragment extends Fragment {
@@ -84,7 +83,7 @@ public class EditStudentFragment extends Fragment {
         });
     }
 
-    private void init(){
+    private void init() {
         firstName.setText(studentModel.getFirstName());
         secondName.setText(studentModel.getSecondName());
         ageStudent.setText(studentModel.getAge().toString());
