@@ -1,9 +1,11 @@
 package com.example.databaseaplication.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteProgram;
 
 import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.model.MarksModel;
@@ -54,14 +56,9 @@ public class GetDataFromDB {
 
 
     public int deleteClassRoom(int id) {
-        //int result = database.delete(DbHelper.TABLE_NAME_OF_CLASS, "_id= " + id, null);
-        //t= database.rawQuery("DELETE FROM "+DbHelper.TABLE_NAME_OF_CLASS+" WHERE "+ DbHelper.TABLE_NAME_OF_CLASS+"."+DbHelper.ID+"="+id,null);
         database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_CLASS + " WHERE " + DbHelper.TABLE_NAME_OF_CLASS + "." + DbHelper.ID + "=" + id);
         database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_MARKS + " WHERE " + DbHelper.STUDENT_ID + "=" + "( SELECT " + DbHelper.ID + " FROM " + DbHelper.TABLE_NAME_OF_STUDENTS + " WHERE " + DbHelper.CLASS_ID + "=" + id + ")");
         database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_STUDENTS + " WHERE " + DbHelper.CLASS_ID + "=" + id);
-        //database.rawQuery("DELETE FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE " +DbHelper.STUDENT_ID+"="+"( SELECT "+DbHelper.ID+" FROM "+DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+ DbHelper.CLASS_ID+"="+id+")",null);
-        //database.rawQuery("DELETE FROM "+DbHelper.TABLE_NAME_OF_STUDENTS+" WHERE "+DbHelper.CLASS_ID+"="+id,null);
-//        database.execSQL("SELECT ");
         return 1;
     }
 
@@ -207,6 +204,57 @@ public class GetDataFromDB {
         contentValues.put(DbHelper.DATA_MARK, marksModel.getDataMark());
         database.update(DbHelper.TABLE_NAME_OF_MARKS, contentValues, DbHelper.ID + "=" + id, null);
     }
+
+
+    @SuppressLint("Recycle")
+    public List<MarksModel> getSubjectByName(String name){
+        String sds="dfds";
+        //Cursor cursor= database.rawQuery("SELECT * FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE "+DbHelper.SUBJECT_NAME+" = "+name,null);
+        Cursor cursor=database.query(DbHelper.TABLE_NAME_OF_MARKS,null,DbHelper.SUBJECT_NAME+"="+"math",null,null,null,null);
+        ArrayList<MarksModel> dataMarks=new ArrayList<>();
+        if (cursor.moveToFirst()) {
+
+            int idIndex = cursor.getColumnIndex(DbHelper.ID);
+            int nameSubject = cursor.getColumnIndex(DbHelper.SUBJECT_NAME);
+            int mark = cursor.getColumnIndex(DbHelper.MARK);
+            int date = cursor.getColumnIndex(DbHelper.DATA_MARK);
+            int studentId = cursor.getColumnIndex(DbHelper.STUDENT_ID);
+            do {
+                Integer idMark = cursor.getInt(idIndex);
+                String subjectName = cursor.getString(nameSubject);
+                Integer subjectMark = cursor.getInt(mark);
+                String dateMark = cursor.getString(date);
+                Integer idStudent = cursor.getInt(studentId);
+                dataMarks.add(new MarksModel(idMark, subjectName, idStudent, subjectMark, dateMark));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return dataMarks;
+    }
+
+    @SuppressLint("Recycle")
+    public List<MarksModel> getSubjectByMark(int mark){
+        Cursor cursor= database.rawQuery("SELECT * FROM "+DbHelper.TABLE_NAME_OF_MARKS+ " WHERE "+DbHelper.MARK+"="+mark,null);
+        ArrayList<MarksModel> dataMarks=new ArrayList<>();
+        if (cursor.moveToFirst()) {
+
+            int idIndex = cursor.getColumnIndex(DbHelper.ID);
+            int nameSubject = cursor.getColumnIndex(DbHelper.SUBJECT_NAME);
+            int markSubject = cursor.getColumnIndex(DbHelper.MARK);
+            int date = cursor.getColumnIndex(DbHelper.DATA_MARK);
+            int studentId = cursor.getColumnIndex(DbHelper.STUDENT_ID);
+            do {
+                Integer idMark = cursor.getInt(idIndex);
+                String subjectName = cursor.getString(nameSubject);
+                Integer subjectMark = cursor.getInt(markSubject);
+                String dateMark = cursor.getString(date);
+                Integer idStudent = cursor.getInt(studentId);
+                dataMarks.add(new MarksModel(idMark, subjectName, idStudent, subjectMark, dateMark));
+            } while (cursor.moveToNext());
+        }
+        return dataMarks;
+    }
+
 
 
 

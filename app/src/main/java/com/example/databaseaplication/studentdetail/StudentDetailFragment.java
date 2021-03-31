@@ -1,21 +1,32 @@
 package com.example.databaseaplication.studentdetail;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.databaseaplication.adapters.MarksAdapter;
+import com.example.databaseaplication.filters.MarksFilterDialogFragment;
 import com.example.databaseaplication.model.MarksModel;
 import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.R;
@@ -27,7 +38,8 @@ import java.util.List;
 public class StudentDetailFragment extends Fragment implements StudentDetailContract.View,
         MarksAdapter.ItemMenuListener,
         AddMarkFragment.OnAddFragmentListener,
-        EditMarkFragment.EditMarkFragmentListener {
+        EditMarkFragment.EditMarkFragmentListener,
+        MarksFilterDialogFragment.OnMarkDialogFragmentListener {
     private Integer studentID;
     private StudentDetailPresenter studentDetailPresenter;
     private TextView firstName;
@@ -47,6 +59,8 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
         if (getArguments() != null) {
             studentID = getArguments().getInt("id");
         }
+        setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -59,6 +73,8 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
         gender = view.findViewById(R.id.genderDetail);
         age = view.findViewById(R.id.ageDetail);
         addButton = view.findViewById(R.id.fab_add_mark);
+        Toolbar myToolbar = view.findViewById(R.id.studentDetailToolBar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(myToolbar);
         return view;
     }
 
@@ -87,6 +103,39 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
         marksRecycler.setAdapter(marksAdapter);
         studentDetailPresenter = new StudentDetailPresenter(this, getContext());
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_class_room,menu);
+        SearchManager searchManager= (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView= (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //searchView.clearFocus();
+                studentDetailPresenter.loadSubject("math");
+                Log.d("tag", "onQueryTextChange: "+query);
+                //searchView.onActionViewCollapsed();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Log.d("tag", "onQueryTextChange: "+newText);
+                return true;
+            }
+        });
+
+        Button button= (Button) menu.findItem(R.id.action_filter).getActionView();
+        button.setOnClickListener(v->{
+            MarksFilterDialogFragment marksFilterDialogFragment=new MarksFilterDialogFragment();
+            marksFilterDialogFragment.show(getParentFragmentManager(),null);
+        });
+    }
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -144,5 +193,11 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
         getParentFragmentManager().popBackStack();
         editMarkFragment = null;
         studentDetailPresenter.loadMarks(studentID);
+    }
+
+    @Override
+    public void onMark(String mark) {
+
+
     }
 }

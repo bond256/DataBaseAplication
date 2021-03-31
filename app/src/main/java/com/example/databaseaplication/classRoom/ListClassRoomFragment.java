@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.databaseaplication.MainInterfaceCallBack;
-import com.example.databaseaplication.filters.FiltersFragment;
+import com.example.databaseaplication.filters.MarksFilterDialogFragment;
 import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.R;
 import com.example.databaseaplication.adapters.ClassAdapter;
@@ -120,7 +120,7 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
 //        classListPresenter.deleteClassRoom(data.get(position).getId());
 //        data.remove(position);
 //        classAdapter.notifyItemRemoved(position);
-        FiltersFragment filtersFragment=new FiltersFragment();
+        MarksFilterDialogFragment filtersFragment=new MarksFilterDialogFragment();
         getParentFragmentManager().beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.main_fragment,filtersFragment,null)

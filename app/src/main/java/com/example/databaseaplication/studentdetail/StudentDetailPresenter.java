@@ -42,9 +42,7 @@ public class StudentDetailPresenter implements StudentDetailContract.StudentDeta
 
     @Override
     public void editMark(MarksModel marksModel) {
-        new Thread(() -> handler.post(() -> {
-            studentDetailRepository.editMark(marksModel);
-        })).start();
+        new Thread(() -> handler.post(() -> studentDetailRepository.editMark(marksModel))).start();
     }
 
     @Override
@@ -52,5 +50,13 @@ public class StudentDetailPresenter implements StudentDetailContract.StudentDeta
         new Thread(() -> handler.post(() -> {
             studentDetailRepository.deleteMark(id);
         })).start();
+    }
+
+    @Override
+    public void loadSubject(String name) {
+        new Thread(()->handler.post(()->{
+            view.showMarks(studentDetailRepository.getSubjectByName(name));
+        })).start();
+
     }
 }

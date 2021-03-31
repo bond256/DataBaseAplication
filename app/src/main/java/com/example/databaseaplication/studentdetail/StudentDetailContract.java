@@ -18,5 +18,6 @@ public interface StudentDetailContract {
         void loadMarks(int id);
         void editMark(MarksModel marksModel);
         void deleteMark(int id);
+        void loadSubject(String name);
     }
 }

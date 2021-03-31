@@ -35,4 +35,9 @@ public class StudentDetailRepository {
     public void editMark(MarksModel marksModel){
         getDataFromDB.updateMark(marksModel);
     }
+
+
+    public List<MarksModel> getSubjectByName(String name){
+        return getDataFromDB.getSubjectByName(name);
+    }
 }
