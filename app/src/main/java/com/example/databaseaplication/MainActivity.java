@@ -16,6 +16,9 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.main_fragment, new ListClassRoomFragment(), null)
                 .commit();
+        //App app= (App) getApplication();
+
+
     }
 
 }

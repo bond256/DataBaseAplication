@@ -207,9 +207,7 @@ public class GetDataFromDB {
 
     @SuppressLint("Recycle")
     public List<MarksModel> getSubjectByName(String name) {
-        String sds = "dfds";
-        Cursor cursor= database.rawQuery("SELECT * FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE "+DbHelper.SUBJECT_NAME + " = ?", new String[]{"math"});
-//        Cursor cursor = database.query(DbHelper.TABLE_NAME_OF_MARKS, null, DbHelper.SUBJECT_NAME + "=" + "math", null, null, null, null);
+        Cursor cursor= database.rawQuery("SELECT * FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE "+DbHelper.SUBJECT_NAME + " = ?", new String[]{name});
         ArrayList<MarksModel> dataMarks = new ArrayList<>();
         if (cursor.moveToFirst()) {
 

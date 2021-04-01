@@ -1,6 +1,7 @@
 package com.example.databaseaplication.studentdetail;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.databaseaplication.App;
 import com.example.databaseaplication.R;
 import com.example.databaseaplication.adapters.MarksAdapter;
 import com.example.databaseaplication.filters.MarksFilterDialogFragment;
@@ -49,6 +51,8 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
     private AddMarkFragment addMarkFragment;
     private EditMarkFragment editMarkFragment;
     private FloatingActionButton addButton;
+    protected App app;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,10 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
             studentID = getArguments().getInt("id");
         }
         setHasOptionsMenu(true);
+
+        app= (App) this.getActivity().getApplication();
+
+
 
     }
 
@@ -112,23 +120,23 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //searchView.clearFocus();
-                studentDetailPresenter.loadSubject("math");
-                Log.d("tag", "onQueryTextChange: " + query);
-                //searchView.onActionViewCollapsed();
-
+                studentDetailPresenter.loadSubject(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //Log.d("tag", "onQueryTextChange: "+newText);
+                if(newText.equals("")){
+                    studentDetailPresenter.loadMarks(studentID);
+
+                }
                 return true;
             }
         });
 
         Button button = (Button) menu.findItem(R.id.action_filter).getActionView();
         button.setOnClickListener(v -> {
+            button.setVisibility(View.GONE);
             MarksFilterDialogFragment marksFilterDialogFragment = new MarksFilterDialogFragment();
             marksFilterDialogFragment.setMarkDialogListener(this);
             marksFilterDialogFragment.show(getParentFragmentManager(), null);
@@ -196,6 +204,6 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
 
     @Override
     public void onMark(String mark) {
-        studentDetailPresenter.loadMarks(Integer.parseInt(mark));
+        studentDetailPresenter.loadSubjectByMark(Integer.parseInt(mark));
     }
 }

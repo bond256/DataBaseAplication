@@ -1,10 +1,12 @@
 package com.example.databaseaplication.studentdetail;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.example.databaseaplication.App;
 import com.example.databaseaplication.model.MarksModel;
 import com.example.databaseaplication.repositoty.StudentDetailRepository;
 
@@ -14,11 +16,13 @@ public class StudentDetailPresenter implements StudentDetailContract.StudentDeta
     private final Handler handler;
 
 
-    public StudentDetailPresenter(StudentDetailContract.View view, Context context) {
+    public StudentDetailPresenter(StudentDetailContract.View view) {
         this.view = view;
-        this.studentDetailRepository = new StudentDetailRepository(context);
+        this.studentDetailRepository = StudentDetailRepository.getInstance()
         this.handler = new Handler(Looper.getMainLooper());
     }
+
+
 
     @Override
     public void loadDetail(int id) {

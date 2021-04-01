@@ -10,9 +10,19 @@ import java.util.List;
 
 public class StudentDetailRepository {
     private GetDataFromDB getDataFromDB;
+    private static StudentDetailRepository studentDetailRepository;
+    private Context context;
 
     public StudentDetailRepository(Context context) {
         this.getDataFromDB = new GetDataFromDB(context);
+        this.context=context;
+    }
+
+    public static StudentDetailRepository getInstance(){
+        if(studentDetailRepository==null){
+            studentDetailRepository=new StudentDetailRepository(this.context);
+        }
+        return studentDetailRepository;
     }
 
     public List<MarksModel> getMarks(int id) {

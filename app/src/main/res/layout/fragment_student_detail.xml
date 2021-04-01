@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1DB171"
+    android:background="#FB8C00"
     tools:context=".classroomdetail.ClassRoomDetailFragment">
 
 
@@ -12,7 +12,7 @@
         android:id="@+id/studentDetailToolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#BC0941"
+        android:background="#FF5722"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
