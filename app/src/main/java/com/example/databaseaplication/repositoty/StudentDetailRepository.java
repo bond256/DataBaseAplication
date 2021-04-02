@@ -11,16 +11,20 @@ import java.util.List;
 public class StudentDetailRepository {
     private GetDataFromDB getDataFromDB;
     private static StudentDetailRepository studentDetailRepository;
-    private Context context;
 
     public StudentDetailRepository(Context context) {
         this.getDataFromDB = new GetDataFromDB(context);
-        this.context=context;
     }
 
-    public static StudentDetailRepository getInstance(){
-        if(studentDetailRepository==null){
-            studentDetailRepository=new StudentDetailRepository(this.context);
+    public static void initInstance(Context context) {
+        if (studentDetailRepository == null) {
+            studentDetailRepository = new StudentDetailRepository(context);
+        }
+    }
+
+    public static StudentDetailRepository getInstance() throws Exception {
+        if (studentDetailRepository == null) {
+            throw new Exception("InitException");
         }
         return studentDetailRepository;
     }

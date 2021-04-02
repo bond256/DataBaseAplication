@@ -1,18 +1,24 @@
 package com.example.databaseaplication.classroomdetail;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.databaseaplication.R;
 import com.example.databaseaplication.adapters.StudentsAdapter;
@@ -31,7 +37,6 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
         EditStudentFragment.OnEditStudentListener {
 
     private RecyclerView studentsRecycler;
-    private TextView nameClass;
     private StudentsAdapter studentsAdapter;
     private List<StudentModel> studentDateList;
     private AddStudentFragment addDialogFragment;
@@ -43,6 +48,7 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
     private TextView levelDetailClass;
     private TextView numberDetailClass;
     private FloatingActionButton fabAddStudent;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     @Override
@@ -51,7 +57,7 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
         if (getArguments() != null) {
             classId = getArguments().getString("id");
         }
-        classDetailPresenter = new ClassRoomDetailPresenter(this, getContext());
+        classDetailPresenter = new ClassRoomDetailPresenter(this);
     }
 
 
@@ -65,6 +71,8 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
         levelDetailClass = view.findViewById(R.id.levelDetailClass);
         numberDetailClass = view.findViewById(R.id.numberDetailClass);
         fabAddStudent = view.findViewById(R.id.fab_add_student);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshClassDetails);
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -88,6 +96,35 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
                     .add(R.id.main_fragment, addDialogFragment, null)
                     .commit();
         });
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(false);
+            classDetailPresenter.loadStudents(Integer.parseInt(classId));
+        });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                classDetailPresenter.loadStudentsByName(query, Integer.parseInt(classId));
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.equals("")) {
+                    classDetailPresenter.loadStudents(Integer.parseInt(classId));
+                }
+                return true;
+            }
+        });
+        menu.findItem(R.id.action_filter).setVisible(false);
     }
 
     @SuppressLint("SetTextI18n")

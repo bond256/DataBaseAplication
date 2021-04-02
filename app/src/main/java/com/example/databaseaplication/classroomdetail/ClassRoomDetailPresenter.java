@@ -1,6 +1,5 @@
 package com.example.databaseaplication.classroomdetail;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -13,9 +12,9 @@ public class ClassRoomDetailPresenter implements ClassRoomDetailContract.ClassDe
     private Handler handler;
 
 
-    public ClassRoomDetailPresenter(ClassRoomDetailContract.View view, Context context) {
+    public ClassRoomDetailPresenter(ClassRoomDetailContract.View view) {
         this.view = view;
-        this.detailRepository = new DetailRepository(context);
+        this.detailRepository = DetailRepository.getInstance();
         this.handler = new Handler(Looper.getMainLooper());
     }
 
@@ -51,6 +50,13 @@ public class ClassRoomDetailPresenter implements ClassRoomDetailContract.ClassDe
     public void editStudent(StudentModel studentModel) {
         new Thread(() -> handler.post(() -> {
             detailRepository.editStudent(studentModel);
+        })).start();
+    }
+
+    @Override
+    public void loadStudentsByName(String name, int id) {
+        new Thread(() -> handler.post(() -> {
+            view.showStudent(detailRepository.getStudentsByName(name, id));
         })).start();
     }
 }

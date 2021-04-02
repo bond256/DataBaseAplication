@@ -1,11 +1,9 @@
 package com.example.databaseaplication.studentdetail;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,12 +14,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.databaseaplication.App;
 import com.example.databaseaplication.R;
@@ -51,6 +48,7 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
     private AddMarkFragment addMarkFragment;
     private EditMarkFragment editMarkFragment;
     private FloatingActionButton addButton;
+    private SwipeRefreshLayout swipeRefreshLayout;
     protected App app;
 
 
@@ -60,12 +58,6 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
         if (getArguments() != null) {
             studentID = getArguments().getInt("id");
         }
-        setHasOptionsMenu(true);
-
-        app= (App) this.getActivity().getApplication();
-
-
-
     }
 
     @Override
@@ -78,15 +70,19 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
         gender = view.findViewById(R.id.genderDetail);
         age = view.findViewById(R.id.ageDetail);
         addButton = view.findViewById(R.id.fab_add_mark);
-        Toolbar myToolbar = view.findViewById(R.id.studentDetailToolBar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(myToolbar);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshStudentDetail);
+        setHasOptionsMenu(true);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
+        try {
+            init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         addButton.setOnClickListener(v -> {
             addMarkFragment = AddMarkFragment.newInstance(this, studentID);
             getParentFragmentManager()
@@ -95,25 +91,27 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
                     .add(R.id.main_fragment, addMarkFragment, null)
                     .commit();
         });
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(false);
+            studentDetailPresenter.loadMarks(studentID);
+        });
         studentDetailPresenter.loadDetail(studentID);
         studentDetailPresenter.loadMarks(studentID);
     }
 
-    private void init() {
+    private void init() throws Exception {
         marksData = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         marksRecycler.setLayoutManager(layoutManager);
         marksAdapter = new MarksAdapter(marksData);
         marksAdapter.setOnItemMenuClickListener(this);
         marksRecycler.setAdapter(marksAdapter);
-        studentDetailPresenter = new StudentDetailPresenter(this, getContext());
-
+        studentDetailPresenter = new StudentDetailPresenter(this);
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_class_room, menu);
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
@@ -126,17 +124,15 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(newText.equals("")){
+                if (newText.equals("")) {
                     studentDetailPresenter.loadMarks(studentID);
-
                 }
                 return true;
             }
         });
-
+        menu.findItem(R.id.action_filter).setVisible(true);
         Button button = (Button) menu.findItem(R.id.action_filter).getActionView();
         button.setOnClickListener(v -> {
-            button.setVisibility(View.GONE);
             MarksFilterDialogFragment marksFilterDialogFragment = new MarksFilterDialogFragment();
             marksFilterDialogFragment.setMarkDialogListener(this);
             marksFilterDialogFragment.show(getParentFragmentManager(), null);

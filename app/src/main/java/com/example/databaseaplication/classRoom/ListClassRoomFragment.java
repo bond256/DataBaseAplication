@@ -1,22 +1,26 @@
 package com.example.databaseaplication.classRoom;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.databaseaplication.MainInterfaceCallBack;
 import com.example.databaseaplication.R;
 import com.example.databaseaplication.adapters.ClassAdapter;
 import com.example.databaseaplication.classroomdetail.ClassRoomDetailFragment;
-import com.example.databaseaplication.filters.MarksFilterDialogFragment;
 import com.example.databaseaplication.model.ClassRoomModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -34,7 +38,7 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
     private ArrayList<ClassRoomModel> data;
     private CreateClassRoomFragment createDialogFragment;
     private EditClassRoomFragment editDialogFragment;
-    private MainInterfaceCallBack mainInterfaceCallBack;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private FloatingActionButton floatingActionButton;
 
     @Override
@@ -43,6 +47,8 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
         View view = inflater.inflate(R.layout.fragment_list_class, container, false);
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
         classRecycler = view.findViewById(R.id.classRecycler);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshClassRooms);
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -58,6 +64,10 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
                     .add(R.id.main_fragment, createDialogFragment, null)
                     .commit();
         });
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(false);
+            classListPresenter.loadClass();
+        });
     }
 
     private void init() {
@@ -67,9 +77,33 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
         classAdapter = new ClassAdapter(data);
         classAdapter.setOnItemMenuClickListener(this);
         classRecycler.setAdapter(classAdapter);
-        classListPresenter = new ClassRoomListPresenter(this, getContext());
+        classListPresenter = new ClassRoomListPresenter(this);
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu, menu);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                classListPresenter.loadClassRoomsByName(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.equals("")) {
+                    classListPresenter.loadClass();
+                }
+                return true;
+            }
+        });
+        menu.findItem(R.id.action_filter).setVisible(false);
+    }
 
     @Override
     public void showList(List<ClassRoomModel> classRooms) {
@@ -117,14 +151,9 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
 
     @Override
     public void onDeleteClick(int position) {
-//        classListPresenter.deleteClassRoom(data.get(position).getId());
-//        data.remove(position);
-//        classAdapter.notifyItemRemoved(position);
-        MarksFilterDialogFragment filtersFragment = new MarksFilterDialogFragment();
-        getParentFragmentManager().beginTransaction()
-                .addToBackStack(null)
-                .replace(R.id.main_fragment, filtersFragment, null)
-                .commit();
+        classListPresenter.deleteClassRoom(data.get(position).getId());
+        data.remove(position);
+        classAdapter.notifyItemRemoved(position);
     }
 
     @Override

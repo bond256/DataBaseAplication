@@ -19,5 +19,7 @@ public interface ClassRoomListContract {
         void deleteClassRoom(int id);
 
         void editClassRoom(ClassRoomModel classRoomModel);
+
+        void loadClassRoomsByName(String name);
     }
 }

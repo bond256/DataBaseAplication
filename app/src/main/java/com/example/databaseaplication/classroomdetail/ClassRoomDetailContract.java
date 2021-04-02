@@ -24,5 +24,7 @@ public interface ClassRoomDetailContract {
         void deleteStudent(int id);
 
         void editStudent(StudentModel studentModel);
+
+        void loadStudentsByName(String name, int id);
     }
 }

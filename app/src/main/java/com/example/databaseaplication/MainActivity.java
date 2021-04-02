@@ -14,11 +14,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.main_fragment, new ListClassRoomFragment(), null)
+                .replace(R.id.main_fragment, new ListClassRoomFragment(), null)
                 .commit();
-        //App app= (App) getApplication();
-
-
     }
 
 }

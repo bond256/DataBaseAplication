@@ -27,10 +27,6 @@ public class EditClassRoomFragment extends Fragment {
     private ClassRoomModel editData;
 
 
-    public EditClassRoomFragment() {
-        // Required empty public constructor
-    }
-
     public static EditClassRoomFragment newInstance(FragmentEditListener fragmentDialogListener, ClassRoomModel classRoomModel) {
         EditClassRoomFragment fragment = new EditClassRoomFragment();
         fragment.fragmentEditListener = fragmentDialogListener;

@@ -1,12 +1,9 @@
 package com.example.databaseaplication.studentdetail;
 
-import android.app.Application;
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.databaseaplication.App;
 import com.example.databaseaplication.model.MarksModel;
 import com.example.databaseaplication.repositoty.StudentDetailRepository;
 
@@ -16,12 +13,11 @@ public class StudentDetailPresenter implements StudentDetailContract.StudentDeta
     private final Handler handler;
 
 
-    public StudentDetailPresenter(StudentDetailContract.View view) {
+    public StudentDetailPresenter(StudentDetailContract.View view) throws Exception {
         this.view = view;
-        this.studentDetailRepository = StudentDetailRepository.getInstance()
+        this.studentDetailRepository = StudentDetailRepository.getInstance();
         this.handler = new Handler(Looper.getMainLooper());
     }
-
 
 
     @Override
@@ -69,7 +65,7 @@ public class StudentDetailPresenter implements StudentDetailContract.StudentDeta
         new Thread(() -> handler.post(() -> {
             view.showMarks(studentDetailRepository.getSubjectsByMark(mark));
         })).start();
-        Log.d("tag", "loadSubjectByMark: "+mark);
+        Log.d("tag", "loadSubjectByMark: " + mark);
 
     }
 

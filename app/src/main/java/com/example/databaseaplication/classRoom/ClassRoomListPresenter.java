@@ -1,6 +1,5 @@
 package com.example.databaseaplication.classRoom;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -13,52 +12,48 @@ public class ClassRoomListPresenter implements ClassRoomListContract.ClassListPr
     private final ClassRepository classRepository;
     private final Handler handler;
 
-    public ClassRoomListPresenter(ClassRoomListContract.View callback, Context context) {
+    public ClassRoomListPresenter(ClassRoomListContract.View callback) {
         this.view = callback;
-        this.classRepository = new ClassRepository(context);
+        this.classRepository = ClassRepository.getInstance();
         handler = new Handler(Looper.getMainLooper());
     }
 
     @Override
     public void loadClass() {
-        new Thread(() -> {
-            handler.post(() -> {
-                view.showList(classRepository.getClassRooms());
-            });
-        }).start();
+        new Thread(() -> handler.post(() -> view.showList(classRepository.getClassRooms()))).start();
     }
 
     @Override
     public void addClass(ClassRoomModel classRoom) {
-        new Thread(() -> {
-            handler.post(() -> {
-                if (classRepository.addClassRoom(classRoom) > 0) {
-                    view.showList(classRepository.getClassRooms());
-                } else view.showError();
-            });
-        }).start();
+        new Thread(() -> handler.post(() -> {
+            if (classRepository.addClassRoom(classRoom) > 0) {
+                view.showList(classRepository.getClassRooms());
+            } else view.showError();
+        })).start();
 
     }
 
     @Override
     public void deleteClassRoom(int id) {
-        new Thread(() -> {
-            handler.post(() -> {
-                if (classRepository.deleteClassRoom(id) > 0) {
-                } else view.showError();
-            });
-        }).start();
+        new Thread(() -> handler.post(() -> {
+            if (classRepository.deleteClassRoom(id) > 0) {
+            } else view.showError();
+        })).start();
     }
 
     @Override
     public void editClassRoom(ClassRoomModel classRoomModel) {
-        new Thread(() -> {
-            handler.post(() -> {
-                classRepository.editClassRoom(classRoomModel);
-                view.showList(classRepository.getClassRooms());
-            });
-        }).start();
+        new Thread(() -> handler.post(() -> {
+            classRepository.editClassRoom(classRoomModel);
+            view.showList(classRepository.getClassRooms());
+        })).start();
+    }
 
+    @Override
+    public void loadClassRoomsByName(String name) {
+        new Thread(() -> handler.post(() -> {
+            view.showList(classRepository.getClassRoomByName(name));
+        })).start();
     }
 
 

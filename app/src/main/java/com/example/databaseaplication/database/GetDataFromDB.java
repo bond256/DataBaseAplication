@@ -71,6 +71,28 @@ public class GetDataFromDB {
         return database.update(DbHelper.TABLE_NAME_OF_CLASS, contentValues, "_id= " + id.toString(), null);
     }
 
+    public List<ClassRoomModel> getClassRoomByName(String name) {
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DbHelper.TABLE_NAME_OF_CLASS + " WHERE " + DbHelper.NAME + " = ?", new String[]{name});
+        ArrayList<ClassRoomModel> dataClassRoom = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+
+            int idIndex = cursor.getColumnIndex(DbHelper.ID);
+            int nameIndex = cursor.getColumnIndex(DbHelper.NAME);
+            int roomNumberIndex = cursor.getColumnIndex(DbHelper.ROOM_NUMBER);
+            int levelIndex = cursor.getColumnIndex(DbHelper.LEVEL);
+            int typeOfClassIndex = cursor.getColumnIndex(DbHelper.TYPE_OF_CLASS);
+            do {
+                Integer id = cursor.getInt(idIndex);
+                String nameClassRoom = cursor.getString(nameIndex);
+                Integer numberRoom = cursor.getInt(roomNumberIndex);
+                Integer level = cursor.getInt(levelIndex);
+                String typeOfClass = cursor.getString(typeOfClassIndex);
+                dataClassRoom.add(new ClassRoomModel(id, nameClassRoom, typeOfClass, numberRoom, level));
+            } while (cursor.moveToNext());
+        }
+        return dataClassRoom;
+    }
+
     public void addNewStudent(StudentModel studentModel) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DbHelper.FIRST_NAME, studentModel.getFirstName());
@@ -140,6 +162,31 @@ public class GetDataFromDB {
         return database.update(DbHelper.TABLE_NAME_OF_STUDENTS, contentValues, DbHelper.ID + "=" + id, null);
     }
 
+    public List<StudentModel> getStudentByName(String name, int id) {
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DbHelper.TABLE_NAME_OF_STUDENTS + " WHERE " + "(" + DbHelper.FIRST_NAME + " = ? " + " OR " + DbHelper.SECOND_NAME + " = ? " + ")" + " AND " + DbHelper.CLASS_ID + " = ? ", new String[]{name, name, String.valueOf(id)});
+        ArrayList<StudentModel> dataStudents = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+
+            int idIndex = cursor.getColumnIndex(DbHelper.ID);
+            int nameIndex = cursor.getColumnIndex(DbHelper.FIRST_NAME);
+            int second = cursor.getColumnIndex(DbHelper.SECOND_NAME);
+            int gender = cursor.getColumnIndex(DbHelper.GENDER);
+            int age = cursor.getColumnIndex(DbHelper.AGE);
+            int idClass = cursor.getColumnIndex(DbHelper.CLASS_ID);
+            do {
+                Integer idStudent = cursor.getInt(idIndex);
+                String firstName = cursor.getString(nameIndex);
+                String secondName = cursor.getString(second);
+                String genderStudent = cursor.getString(gender);
+                Integer ageStudent = cursor.getInt(age);
+                Integer classId = cursor.getInt(idClass);
+                dataStudents.add(new StudentModel(idStudent, firstName, secondName, classId, genderStudent, ageStudent));
+            } while (cursor.moveToNext());
+        }
+        return dataStudents;
+    }
+
     public void addMarks(MarksModel marksModel) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DbHelper.SUBJECT_NAME, marksModel.getSubjectName());
@@ -207,7 +254,7 @@ public class GetDataFromDB {
 
     @SuppressLint("Recycle")
     public List<MarksModel> getSubjectByName(String name) {
-        Cursor cursor= database.rawQuery("SELECT * FROM "+DbHelper.TABLE_NAME_OF_MARKS+" WHERE "+DbHelper.SUBJECT_NAME + " = ?", new String[]{name});
+        Cursor cursor = database.rawQuery("SELECT * FROM " + DbHelper.TABLE_NAME_OF_MARKS + " WHERE " + DbHelper.SUBJECT_NAME + " = ?", new String[]{name});
         ArrayList<MarksModel> dataMarks = new ArrayList<>();
         if (cursor.moveToFirst()) {
 
