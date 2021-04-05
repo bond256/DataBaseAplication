@@ -118,8 +118,8 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
     }
 
     @Override
-    public void showError() {
-        Log.d("tag", "showError: ");
+    public void showError(String message) {
+        Log.d("tag", "showError: "+message);
     }
 
     @Override
@@ -139,6 +139,7 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
     public void onApply(ClassRoomModel classRoomModel) {
         classListPresenter.addClass(classRoomModel);
         getParentFragmentManager().popBackStack();
+        classListPresenter.loadClass();
     }
 
     @Override

@@ -8,7 +8,7 @@ public interface ClassRoomListContract {
     interface View {
         void showList(List<ClassRoomModel> classRooms);
 
-        void showError();
+        void showError(String message);
     }
 
     interface ClassListPresenter {

@@ -2,7 +2,7 @@ package com.example.databaseaplication;
 
 import android.app.Application;
 
-import com.example.databaseaplication.repositoty.ClassRepository;
+import com.example.databaseaplication.repositoty.ClassRoomRepository;
 import com.example.databaseaplication.repositoty.DetailRepository;
 import com.example.databaseaplication.repositoty.StudentDetailRepository;
 
@@ -13,6 +13,6 @@ public class App extends Application {
         super.onCreate();
         StudentDetailRepository.initInstance(getApplicationContext());
         DetailRepository.initInstance(getApplicationContext());
-        ClassRepository.initInstance(getApplicationContext());
+        ClassRoomRepository.initInstance(getApplicationContext());
     }
 }
