@@ -9,7 +9,7 @@ public interface StudentDetailContract {
     interface View {
         void showDetail(StudentModel studentModel);
 
-        void showError();
+        void showError(String message);
 
         void showMarks(List<MarksModel> marksModel);
     }

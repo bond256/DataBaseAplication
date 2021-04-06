@@ -6,57 +6,69 @@ import android.os.Looper;
 import com.example.databaseaplication.model.StudentModel;
 import com.example.databaseaplication.repositoty.DetailRepository;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class ClassRoomDetailPresenter implements ClassRoomDetailContract.ClassDetailPresenter {
     private ClassRoomDetailContract.View view;
     private DetailRepository detailRepository;
-    private Handler handler;
 
 
     public ClassRoomDetailPresenter(ClassRoomDetailContract.View view) {
         this.view = view;
         this.detailRepository = DetailRepository.getInstance();
-        this.handler = new Handler(Looper.getMainLooper());
     }
 
     @Override
     public void loadDetails(int id) {
-        new Thread(() -> handler.post(() -> {
-            view.showDetails(detailRepository.getDetails(id));
-        })).start();
+        detailRepository.getDetails(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> view.showDetails(result));
     }
 
     @Override
     public void loadStudents(int id) {
-        new Thread(() -> handler.post(() -> {
-            view.showStudent(detailRepository.getStudents(id));
-        })).start();
+        detailRepository.getStudents(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result->view.showStudent(result));
     }
 
     @Override
     public void addStudent(StudentModel student) {
-        new Thread(() -> handler.post(() -> {
-            detailRepository.addStudent(student);
-        })).start();
+        detailRepository.addStudent(student)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(()->{},
+                        error->view.showError(error.getLocalizedMessage()));
     }
 
     @Override
     public void deleteStudent(int id) {
-        new Thread(() -> handler.post(() -> {
-            detailRepository.deleteStudent(id);
-        })).start();
+        detailRepository.deleteStudent(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(()->{},
+                        error->view.showError(error.getLocalizedMessage()));
+
     }
 
     @Override
     public void editStudent(StudentModel studentModel) {
-        new Thread(() -> handler.post(() -> {
-            detailRepository.editStudent(studentModel);
-        })).start();
+        detailRepository.editStudent(studentModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(()->{},
+                        error->view.showError(error.getLocalizedMessage()));
+
     }
 
     @Override
     public void loadStudentsByName(String name, int id) {
-        new Thread(() -> handler.post(() -> {
-            view.showStudent(detailRepository.getStudentsByName(name, id));
-        })).start();
+        detailRepository.getStudentsByName(name,id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result->view.showStudent(result));
     }
 }

@@ -19,7 +19,7 @@ public class ClassRoomRepository {
 
     public ClassRoomRepository(Context context) {
         this.classRoomData = new GetDataFromDB(context);
-        this.getClassRoomData=new GetClassRoomData(context);
+        this.getClassRoomData = new GetClassRoomData(context);
     }
 
 
@@ -34,33 +34,22 @@ public class ClassRoomRepository {
     }
 
 
-//    public List<ClassRoomModel> getClassRooms() {
-//        return classData.getAllClassRooms();
-//    }
-
-    public Single<List<ClassRoomModel>> getClassRooms(){
+    public Single<List<ClassRoomModel>> getClassRooms() {
         return getClassRoomData.getAllClassRooms();
     }
 
-//    public long addClassRoom(ClassRoomModel classRoomModel) {
-//        return classRoomData.addClassRoom(classRoomModel);
-//    }
 
     public Completable addClassRoom(ClassRoomModel classRoomModel) {
         return getClassRoomData.addClassRoom(classRoomModel);
     }
 
-    public int deleteClassRoom(int id) {
-        return classRoomData.deleteClassRoom(id);
+    public Completable deleteClassRoom(int id) {
+        return getClassRoomData.deleteClassRoom(id);
     }
 
-    public int editClassRoom(ClassRoomModel classRoomModel) {
-        return classRoomData.updateClassRoom(classRoomModel);
+    public Completable editClassRoom(ClassRoomModel classRoomModel) {
+        return getClassRoomData.updateClassRoom(classRoomModel);
     }
-
-//    public List<ClassRoomModel> getClassRoomByName(String name) {
-//        return classRoomData.getClassRoomByName(name);
-//    }
 
     public Single<List<ClassRoomModel>> getClassRoomByName(String name) {
         return getClassRoomData.getClassRoomByName(name);

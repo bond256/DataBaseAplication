@@ -2,10 +2,12 @@ package com.example.databaseaplication.studentdetail;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.example.databaseaplication.model.MarksModel;
 import com.example.databaseaplication.repositoty.StudentDetailRepository;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class StudentDetailPresenter implements StudentDetailContract.StudentDetailPresenter {
     private final StudentDetailContract.View view;
@@ -22,9 +24,10 @@ public class StudentDetailPresenter implements StudentDetailContract.StudentDeta
 
     @Override
     public void loadDetail(int id) {
-        new Thread(() -> handler.post(() -> {
-            view.showDetail(studentDetailRepository.getDetailStudent(id));
-        })).start();
+        studentDetailRepository.getDetailStudent(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> view.showDetail(result));
     }
 
     @Override
@@ -36,36 +39,46 @@ public class StudentDetailPresenter implements StudentDetailContract.StudentDeta
 
     @Override
     public void loadMarks(int id) {
-        new Thread(() -> handler.post(() -> {
-            view.showMarks(studentDetailRepository.getMarks(id));
-        })).start();
+        studentDetailRepository.getMarks(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> view.showMarks(result));
     }
 
     @Override
     public void editMark(MarksModel marksModel) {
-        new Thread(() -> handler.post(() -> studentDetailRepository.editMark(marksModel))).start();
+        studentDetailRepository.editMark(marksModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                        },
+                        error -> view.showError(error.getLocalizedMessage()));
     }
 
     @Override
     public void deleteMark(int id) {
-        new Thread(() -> handler.post(() -> {
-            studentDetailRepository.deleteMark(id);
-        })).start();
+        studentDetailRepository.deleteMark(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                        },
+                        error -> view.showError(error.getLocalizedMessage()));
     }
 
     @Override
     public void loadSubject(String name) {
-        new Thread(() -> handler.post(() -> {
-            view.showMarks(studentDetailRepository.getSubjectByName(name));
-        })).start();
+        studentDetailRepository.getSubjectByName(name)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> view.showMarks(result));
     }
 
     @Override
     public void loadSubjectByMark(int mark) {
-        new Thread(() -> handler.post(() -> {
-            view.showMarks(studentDetailRepository.getSubjectsByMark(mark));
-        })).start();
-        Log.d("tag", "loadSubjectByMark: " + mark);
+        studentDetailRepository.getSubjectsByMark(mark)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> view.showMarks(result));
 
     }
 

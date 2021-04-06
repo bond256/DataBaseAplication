@@ -152,9 +152,9 @@ public class ListClassRoomFragment extends Fragment implements ClassRoomListCont
 
     @Override
     public void onDeleteClick(int position) {
-        classListPresenter.deleteClassRoom(data.get(position).getId());
-        data.remove(position);
-        classAdapter.notifyItemRemoved(position);
+        classListPresenter.deleteClassRoom(26);
+        //data.remove(position);
+        //classAdapter.notifyItemRemoved(position);
     }
 
     @Override

@@ -150,7 +150,7 @@ public class StudentDetailFragment extends Fragment implements StudentDetailCont
     }
 
     @Override
-    public void showError() {
+    public void showError(String message) {
 
     }
 

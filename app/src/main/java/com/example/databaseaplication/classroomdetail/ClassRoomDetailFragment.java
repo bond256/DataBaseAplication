@@ -138,7 +138,7 @@ public class ClassRoomDetailFragment extends Fragment implements ClassRoomDetail
     }
 
     @Override
-    public void showError() {
+    public void showError(String message) {
 
     }
 

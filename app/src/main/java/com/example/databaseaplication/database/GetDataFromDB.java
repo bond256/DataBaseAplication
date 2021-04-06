@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.model.MarksModel;
@@ -56,9 +57,12 @@ public class GetDataFromDB {
 
     public int deleteClassRoom(int id) {
         //database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_CLASS + " WHERE " + DbHelper.TABLE_NAME_OF_CLASS + "." + DbHelper.ID + "=" + id);
-        Cursor cursor=database.rawQuery("DELETE FROM " + DbHelper.TABLE_NAME_OF_CLASS + " WHERE " + DbHelper.TABLE_NAME_OF_CLASS + "." + DbHelper.ID + "= ?",new String[]{String.valueOf(id)});
+        database.beginTransaction();
+        Cursor cursor= database.rawQuery("DELETE FROM " + DbHelper.TABLE_NAME_OF_CLASS + " WHERE " + DbHelper.TABLE_NAME_OF_CLASS + "." + DbHelper.ID + "= ?",new String[]{String.valueOf(id)});
         database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_MARKS + " WHERE " + DbHelper.STUDENT_ID + "=" + "( SELECT " + DbHelper.ID + " FROM " + DbHelper.TABLE_NAME_OF_STUDENTS + " WHERE " + DbHelper.CLASS_ID + "=" + id + ")");
         database.execSQL("DELETE FROM " + DbHelper.TABLE_NAME_OF_STUDENTS + " WHERE " + DbHelper.CLASS_ID + "=" + id);
+        //database.setTransactionSuccessful();
+        Log.d("tag", "deleteClassRoom: "+cursor.getCount());
         return 1;
     }
 

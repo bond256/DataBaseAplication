@@ -9,7 +9,7 @@ public interface ClassRoomDetailContract {
     interface View {
         void showDetails(ClassRoomModel classRoomModel);
 
-        void showError();
+        void showError(String message);
 
         void showStudent(List<StudentModel> studentModel);
     }

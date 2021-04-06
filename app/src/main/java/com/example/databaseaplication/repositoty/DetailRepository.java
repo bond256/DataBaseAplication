@@ -2,18 +2,21 @@ package com.example.databaseaplication.repositoty;
 
 import android.content.Context;
 
-import com.example.databaseaplication.database.GetDataFromDB;
+import com.example.databaseaplication.database.GetClassRoomDetailData;
 import com.example.databaseaplication.model.ClassRoomModel;
 import com.example.databaseaplication.model.StudentModel;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
+
 public class DetailRepository {
-    private GetDataFromDB getDataFromDB;
+    private GetClassRoomDetailData getClassRoomDetailData;
     private static DetailRepository detailRepository;
 
     public DetailRepository(Context context) {
-        this.getDataFromDB = new GetDataFromDB(context);
+        this.getClassRoomDetailData = new GetClassRoomDetailData(context);
     }
 
 
@@ -27,28 +30,28 @@ public class DetailRepository {
         return detailRepository;
     }
 
-    public void addStudent(StudentModel student) {
-        getDataFromDB.addNewStudent(student);
+    public Completable addStudent(StudentModel student) {
+        return getClassRoomDetailData.addNewStudent(student);
     }
 
-    public List<StudentModel> getStudents(int id) {
-        return getDataFromDB.getStudents(id);
+    public Single<List<StudentModel>> getStudents(int id) {
+        return getClassRoomDetailData.getStudents(id);
     }
 
-    public ClassRoomModel getDetails(int id) {
-        return getDataFromDB.getClassRoomDetail(id);
+    public Single<ClassRoomModel> getDetails(int id) {
+        return getClassRoomDetailData.getClassRoomDetail(id);
     }
 
-    public int deleteStudent(int id) {
-        return getDataFromDB.deleteStudent(id);
+    public Completable deleteStudent(int id) {
+        return getClassRoomDetailData.deleteStudent(id);
     }
 
-    public int editStudent(StudentModel studentModel) {
-        return getDataFromDB.editStudent(studentModel);
+    public Completable editStudent(StudentModel studentModel) {
+        return getClassRoomDetailData.editStudent(studentModel);
     }
 
-    public List<StudentModel> getStudentsByName(String name, int id) {
-        return getDataFromDB.getStudentByName(name, id);
+    public Single<List<StudentModel>> getStudentsByName(String name, int id) {
+        return getClassRoomDetailData.getStudentByName(name, id);
     }
 
 
