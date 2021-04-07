@@ -2,7 +2,6 @@ package com.example.databaseaplication.repositoty;
 
 import android.content.Context;
 
-import com.example.databaseaplication.database.GetDataFromDB;
 import com.example.databaseaplication.database.GetStudentDetailData;
 import com.example.databaseaplication.model.MarksModel;
 import com.example.databaseaplication.model.StudentModel;

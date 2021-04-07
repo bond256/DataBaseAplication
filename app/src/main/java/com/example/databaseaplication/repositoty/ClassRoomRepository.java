@@ -3,7 +3,6 @@ package com.example.databaseaplication.repositoty;
 import android.content.Context;
 
 import com.example.databaseaplication.database.GetClassRoomData;
-import com.example.databaseaplication.database.GetDataFromDB;
 import com.example.databaseaplication.model.ClassRoomModel;
 
 import java.util.List;
@@ -12,13 +11,11 @@ import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 public class ClassRoomRepository {
-    private final GetDataFromDB classRoomData;
     private final GetClassRoomData getClassRoomData;
     private static ClassRoomRepository classRoomRepository;
 
 
     public ClassRoomRepository(Context context) {
-        this.classRoomData = new GetDataFromDB(context);
         this.getClassRoomData = new GetClassRoomData(context);
     }
 
